@@ -12,6 +12,7 @@ interface TripPlace {
   lat: number;
   lng: number;
   duration: number;
+  openingHours?: any;
 }
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
         duration: 60,
+        openingHours: place.opening_hours,
       };
 
       setPlacesList((prevList) => [...prevList, newPlace]);
@@ -61,6 +63,7 @@ function App() {
           latitude: place.lat,
           longitude: place.lng,
         },
+        opening_hours: place.openingHours,
       })),
     };
 
@@ -73,7 +76,6 @@ function App() {
       );
 
       // TODO
-      
     } catch (error) {
       alert("Error connecting to the backend.");
     } finally {
