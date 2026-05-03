@@ -10,6 +10,7 @@ interface TripPlace {
   name: string;
   lat: number;
   lng: number;
+  duration: number;
 }
 
 function App() {
@@ -25,10 +26,19 @@ function App() {
         name: place.name || 'Unknown Place',
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
+        duration: 60,
       };
 
       setPlacesList((prevList) => [...prevList, newPlace]);
     }
+  };
+
+  const handleDurationChange = (id: string, newDuration: number) => {
+    setPlacesList((prevList) =>
+      prevList.map((place) =>
+        place.id === id ? { ...place, duration: newDuration } : place
+      )
+    );
   };
 
   return (
@@ -50,6 +60,19 @@ function App() {
                 {placesList.map((p, index) => (
                   <li key={p.id} className="place-item">
                     <span><strong>{index + 1}.</strong> {p.name}</span>
+
+                    <div className="duration-container">
+                      <label htmlFor={`duration-${p.id}`}>Time to spend (min):</label>
+                      <input
+                        id={`duration-${p.id}`}
+                        type="number"
+                        min="1"
+                        className="duration-input"
+                        value={p.duration}
+                        onChange={(e) => handleDurationChange(p.id, parseInt(e.target.value) || 0)}
+                      />
+                    </div>
+
                   </li>
                 ))}
               </ul>
