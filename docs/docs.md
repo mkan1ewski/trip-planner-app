@@ -71,6 +71,7 @@ Dane te wykorzystywane są do budowy macierzy odległości oraz działania algor
 # 4. Architektura aplikacji
 
 Aplikacja została podzielona na frontend oraz backend.
+
 ![alt text](images/SPDB.png)
 
 ## Frontend
