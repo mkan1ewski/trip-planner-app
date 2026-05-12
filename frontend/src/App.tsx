@@ -26,6 +26,10 @@ function App() {
   const [placesList, setPlacesList] = useState<TripPlace[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const [startLocationId, setStartLocationId] = useState<string | null>(null);
+  const [tripStartTime, setTripStartTime] = useState<string>("09:00");
+  const [tripEndTime, setTripEndTime] = useState<string>("");
+
   if (!API_KEY) return <div>No API key</div>;
 
   const handlePlaceSelect = (place: google.maps.places.PlaceResult | null) => {
@@ -42,7 +46,13 @@ function App() {
         openingHours: place.opening_hours,
       };
 
-      setPlacesList((prevList) => [...prevList, newPlace]);
+      setPlacesList((prevList) => {
+        const newList = [...prevList, newPlace];
+        if (newList.length === 1) {
+          setStartLocationId(newPlace.id);
+        }
+        return newList;
+      });
     }
   };
 
@@ -61,6 +71,9 @@ function App() {
     }
 
     const requestPayload = {
+      trip_start_location_id: startLocationId || null,
+      trip_start_time: tripStartTime || null,
+      trip_end_time: tripEndTime || null,
       trip_points: placesList.map((place) => ({
         location_id: place.id,
         location_name: place.name,
@@ -98,7 +111,34 @@ function App() {
         <aside className="sidebar">
           <h1>Trip Planner</h1>
 
-          <PlaceAutocomplete onPlaceSelect={handlePlaceSelect} />
+          <div className="trip-settings">
+            <h3>General Settings:</h3>
+            <div className="time-settings-row">
+              <div className="setting-row">
+                <label>Start Time:</label>
+                <input
+                  type="time"
+                  className="time-input"
+                  value={tripStartTime}
+                  onChange={(e) => setTripStartTime(e.target.value)}
+                />
+              </div>
+              <div className="setting-row">
+                <label>End Time (Optional):</label>
+                <input
+                  type="time"
+                  className="time-input"
+                  value={tripEndTime}
+                  onChange={(e) => setTripEndTime(e.target.value)}
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="add-place-section">
+            <h3>Add Places to Visit:</h3>
+            <PlaceAutocomplete onPlaceSelect={handlePlaceSelect} />
+          </div>
 
           <div className="places-list-container">
             <h3>Selected Places:</h3>
@@ -110,10 +150,21 @@ function App() {
             ) : (
               <ul className="places-list">
                 {placesList.map((p, index) => (
-                  <li key={p.id} className="place-item">
-                    <span>
-                      <strong>{index + 1}.</strong> {p.name}
-                    </span>
+                  <li key={p.id} className={`place-item ${startLocationId === p.id ? 'is-start' : ''}`}>
+                    <div className="place-header">
+                      <span className="place-name">
+                        <strong>{index + 1}.</strong> {p.name}
+                      </span>
+                      <label className={`start-location-radio ${startLocationId === p.id ? 'active' : ''}`} title="Set as start location">
+                        <input
+                           type="radio"
+                           name="startLocation"
+                           checked={startLocationId === p.id}
+                           onChange={() => setStartLocationId(p.id)}
+                        />
+                        Start
+                      </label>
+                    </div>
 
                     <div className="place-settings">
                       <div className="setting-row">
