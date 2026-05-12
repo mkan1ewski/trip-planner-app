@@ -11,7 +11,10 @@ interface TripPlace {
   name: string;
   lat: number;
   lng: number;
-  duration: number;
+  minDuration: number;
+  maxDuration: number;
+  visitTimeWindowStart: string;
+  visitTimeWindowEnd: string;
   openingHours?: any;
 }
 
@@ -32,7 +35,10 @@ function App() {
         name: place.name || "Unknown Place",
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng(),
-        duration: 60,
+        minDuration: 60,
+        maxDuration: 120,
+        visitTimeWindowStart: "",
+        visitTimeWindowEnd: "",
         openingHours: place.opening_hours,
       };
 
@@ -40,10 +46,10 @@ function App() {
     }
   };
 
-  const handleDurationChange = (id: string, newDuration: number) => {
+  const handlePlaceChange = (id: string, field: keyof TripPlace, value: any) => {
     setPlacesList((prevList) =>
       prevList.map((place) =>
-        place.id === id ? { ...place, duration: newDuration } : place,
+        place.id === id ? { ...place, [field]: value } : place,
       ),
     );
   };
@@ -58,7 +64,10 @@ function App() {
       trip_points: placesList.map((place) => ({
         location_id: place.id,
         location_name: place.name,
-        duration_minutes: place.duration,
+        min_duration_minutes: place.minDuration,
+        max_duration_minutes: place.maxDuration,
+        time_window_start: place.visitTimeWindowStart || null,
+        time_window_end: place.visitTimeWindowEnd || null,
         coordinates: {
           latitude: place.lat,
           longitude: place.lng,
@@ -106,23 +115,56 @@ function App() {
                       <strong>{index + 1}.</strong> {p.name}
                     </span>
 
-                    <div className="duration-container">
-                      <label htmlFor={`duration-${p.id}`}>
-                        Time to spend (min):
-                      </label>
-                      <input
-                        id={`duration-${p.id}`}
-                        type="number"
-                        min="1"
-                        className="duration-input"
-                        value={p.duration}
-                        onChange={(e) =>
-                          handleDurationChange(
-                            p.id,
-                            parseInt(e.target.value) || 0,
-                          )
-                        }
-                      />
+                    <div className="place-settings">
+                      <div className="setting-row">
+                        <label>Time to spend (minutes):</label>
+                        <div className="range-inputs">
+                          <input
+                            type="number"
+                            min="1"
+                            className="duration-input"
+                            value={p.minDuration}
+                            onChange={(e) =>
+                              handlePlaceChange(p.id, "minDuration", parseInt(e.target.value) || 0)
+                            }
+                            placeholder="Min"
+                          />
+                          <span> - </span>
+                          <input
+                            type="number"
+                            min="1"
+                            className="duration-input"
+                            value={p.maxDuration}
+                            onChange={(e) =>
+                              handlePlaceChange(p.id, "maxDuration", parseInt(e.target.value) || 0)
+                            }
+                            placeholder="Max"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="setting-row">
+                        <label>Preferred visit time window:</label>
+                        <div className="range-inputs">
+                          <input
+                            type="time"
+                            className="time-input"
+                            value={p.visitTimeWindowStart}
+                            onChange={(e) =>
+                              handlePlaceChange(p.id, "visitTimeWindowStart", e.target.value)
+                            }
+                          />
+                          <span> - </span>
+                          <input
+                            type="time"
+                            className="time-input"
+                            value={p.visitTimeWindowEnd}
+                            onChange={(e) =>
+                              handlePlaceChange(p.id, "visitTimeWindowEnd", e.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
                     </div>
                   </li>
                 ))}
