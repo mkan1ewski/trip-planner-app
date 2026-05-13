@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 GOOGLE_MAPS_API_KEY = os.getenv("GOOGLE_MAPS_API_KEY")
 
-async def get_route_matrix(origins: list[str], destinations: list[str]):
+async def get_route_matrix(origins: list[str], destinations: list[str], travel_mode: str = "DRIVE"):
     """
     Fetches the route matrix from Google Maps Compute Route Matrix API.
     origins and destinations are lists of Google Maps Place IDs.
@@ -24,9 +24,11 @@ async def get_route_matrix(origins: list[str], destinations: list[str]):
     payload = {
         "origins": [{"waypoint": {"placeId": place_id}} for place_id in origins],
         "destinations": [{"waypoint": {"placeId": place_id}} for place_id in destinations],
-        "travelMode": "DRIVE",
-        "routingPreference": "TRAFFIC_AWARE"
+        "travelMode": travel_mode,
     }
+
+    if travel_mode == "DRIVE":
+        payload["routingPreference"] = "TRAFFIC_AWARE"
 
     async with httpx.AsyncClient() as client:
         response = await client.post(url, json=payload, headers=headers)

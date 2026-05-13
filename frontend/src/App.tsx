@@ -29,6 +29,15 @@ function App() {
   const [startLocationId, setStartLocationId] = useState<string | null>(null);
   const [tripStartTime, setTripStartTime] = useState<string>("09:00");
   const [tripEndTime, setTripEndTime] = useState<string>("");
+  const [travelModes, setTravelModes] = useState<string[]>(['DRIVE']);
+
+  const toggleTravelMode = (mode: string) => {
+    setTravelModes(prev => 
+      prev.includes(mode) 
+        ? prev.filter(m => m !== mode)
+        : [...prev, mode]
+    );
+  };
 
   if (!API_KEY) return <div>No API key</div>;
 
@@ -74,6 +83,7 @@ function App() {
       trip_start_location_id: startLocationId || null,
       trip_start_time: tripStartTime || null,
       trip_end_time: tripEndTime || null,
+      travel_modes: travelModes.length > 0 ? travelModes : ["DRIVE"],
       trip_points: placesList.map((place) => ({
         location_id: place.id,
         location_name: place.name,
@@ -131,6 +141,30 @@ function App() {
                   value={tripEndTime}
                   onChange={(e) => setTripEndTime(e.target.value)}
                 />
+              </div>
+            </div>
+            
+            <div className="travel-mode-section">
+              <label>Travel Modes:</label>
+              <div className="travel-mode-toggles">
+                <button 
+                  className={`mode-toggle ${travelModes.includes('DRIVE') ? 'active' : ''}`}
+                  onClick={() => toggleTravelMode('DRIVE')}
+                >
+                  🚗 Car
+                </button>
+                <button 
+                  className={`mode-toggle ${travelModes.includes('TRANSIT') ? 'active' : ''}`}
+                  onClick={() => toggleTravelMode('TRANSIT')}
+                >
+                  🚌 Transit
+                </button>
+                <button 
+                  className={`mode-toggle ${travelModes.includes('WALK') ? 'active' : ''}`}
+                  onClick={() => toggleTravelMode('WALK')}
+                >
+                  🚶 Walk
+                </button>
               </div>
             </div>
           </div>

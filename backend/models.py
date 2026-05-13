@@ -18,4 +18,5 @@ class CalculateRouteRequest(BaseModel):
     trip_start_location_id: str | None = None
     trip_start_time: str | None = None
     trip_end_time: str | None = None
+    travel_modes: list[str] = ["DRIVE"]
     trip_points: list[TripPoint]
