@@ -1,8 +1,10 @@
 import asyncio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from utilities.algorithms import calculate_route_order
 from models import CalculateRouteRequest
 from services.google_maps import get_route_matrix
+from utilities.matrix_parser import get_route_graph
 
 app = FastAPI()
 
@@ -27,18 +29,21 @@ async def calculate_route(payload: CalculateRouteRequest):
     all_place_ids = [point.location_id for point in payload.trip_points]
 
     try:
-        tasks = [
-            get_route_matrix(origins=all_place_ids, destinations=all_place_ids, travel_mode=mode)
-            for mode in payload.travel_modes
-        ]
-        results = await asyncio.gather(*tasks)
-
-        matrices = {mode: matrix for mode, matrix in zip(payload.travel_modes, results)}
-
+        graph = await get_route_graph(origins=all_place_ids, destinations=all_place_ids, travel_mode=payload.travel_mode)
+        result = calculate_route_order(
+            graph=graph,
+            trip_points=payload.trip_points,
+            start_location_id=payload.trip_start_location_id,
+            trip_start_time=payload.trip_start_time,
+            
+        )
+        for elem in payload.trip_points:
+            print(elem.location_name)
+            print(elem.opening_hours)
         return {
             "status": "success",
-            "message": f"Got matrix data for modes: {', '.join(payload.travel_modes)}",
-            "matrices": matrices
+            "route_order": result
         }
     except Exception as e:
+        print(f"Error calculating route: {e}")
         return {"status": "error", "message": str(e)}
