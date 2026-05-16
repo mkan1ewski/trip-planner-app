@@ -227,3 +227,26 @@ body, html {
   border-radius: 4px;
   font-size: 13px;
 }
+
+.place-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.remove-place-button {
+  border: none;
+  background: #ff4d4f;
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.remove-place-button:hover {
+  opacity: 0.85;
+}

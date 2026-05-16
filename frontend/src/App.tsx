@@ -1,7 +1,12 @@
 /// <reference types="@types/google.maps" />
 
 import { useState } from "react";
-import { APIProvider, Map } from "@vis.gl/react-google-maps";
+import {
+  APIProvider,
+  Map,
+  Marker,
+  Polyline,
+} from "@vis.gl/react-google-maps";
 import { PlaceAutocomplete } from "./PlaceAutocomplete";
 import axios from "axios";
 import "./App.css";
@@ -29,16 +34,9 @@ function App() {
   const [startLocationId, setStartLocationId] = useState<string | null>(null);
   const [tripStartTime, setTripStartTime] = useState<string>("09:00");
   const [tripEndTime, setTripEndTime] = useState<string>("");
-  const [travelModes, setTravelModes] = useState<string[]>(['DRIVE']);
-
-  const toggleTravelMode = (mode: string) => {
-    setTravelModes(prev => 
-      prev.includes(mode) 
-        ? prev.filter(m => m !== mode)
-        : [...prev, mode]
-    );
-  };
-
+  const [travelMode, setTravelMode] = useState('DRIVE');
+  const [routeOrder, setRouteOrder] = useState<string[]>([]);
+  
   if (!API_KEY) return <div>No API key</div>;
 
   const handlePlaceSelect = (place: google.maps.places.PlaceResult | null) => {
@@ -83,7 +81,7 @@ function App() {
       trip_start_location_id: startLocationId || null,
       trip_start_time: tripStartTime || null,
       trip_end_time: tripEndTime || null,
-      travel_modes: travelModes.length > 0 ? travelModes : ["DRIVE"],
+      travel_mode: travelMode,
       trip_points: placesList.map((place) => ({
         location_id: place.id,
         location_name: place.name,
@@ -106,14 +104,32 @@ function App() {
         `${BACKEND_URL}/api/calculate`,
         requestPayload,
       );
+      setRouteOrder(response.data.route_order || []);
 
-      // TODO
     } catch (error) {
       alert("Error connecting to the backend.");
     } finally {
       setIsLoading(false);
     }
   };
+
+  const handleRemovePlace = (id: string) => {
+    setPlacesList((prevList) =>
+      prevList.filter((place) => place.id !== id)
+    );
+
+    if (startLocationId === id) {
+      setStartLocationId(null);
+    }
+
+    setRouteOrder((prev) =>
+      prev.filter((placeId) => placeId !== id)
+    );
+  };
+
+  const orderedPlaces = routeOrder
+    .map((id) => placesList.find((p) => p.id === id))
+    .filter(Boolean) as TripPlace[];
 
   return (
     <APIProvider apiKey={API_KEY}>
@@ -145,23 +161,29 @@ function App() {
             </div>
             
             <div className="travel-mode-section">
-              <label>Travel Modes:</label>
+              <label>Travel Mode:</label>
+
               <div className="travel-mode-toggles">
-                <button 
-                  className={`mode-toggle ${travelModes.includes('DRIVE') ? 'active' : ''}`}
-                  onClick={() => toggleTravelMode('DRIVE')}
+                <button
+                  type="button"
+                  className={`mode-toggle ${travelMode === 'DRIVE' ? 'active' : ''}`}
+                  onClick={() => setTravelMode('DRIVE')}
                 >
                   🚗 Car
                 </button>
-                <button 
-                  className={`mode-toggle ${travelModes.includes('TRANSIT') ? 'active' : ''}`}
-                  onClick={() => toggleTravelMode('TRANSIT')}
+
+                <button
+                  type="button"
+                  className={`mode-toggle ${travelMode === 'TRANSIT' ? 'active' : ''}`}
+                  onClick={() => setTravelMode('TRANSIT')}
                 >
                   🚌 Transit
                 </button>
-                <button 
-                  className={`mode-toggle ${travelModes.includes('WALK') ? 'active' : ''}`}
-                  onClick={() => toggleTravelMode('WALK')}
+
+                <button
+                  type="button"
+                  className={`mode-toggle ${travelMode === 'WALK' ? 'active' : ''}`}
+                  onClick={() => setTravelMode('WALK')}
                 >
                   🚶 Walk
                 </button>
@@ -186,18 +208,34 @@ function App() {
                 {placesList.map((p, index) => (
                   <li key={p.id} className={`place-item ${startLocationId === p.id ? 'is-start' : ''}`}>
                     <div className="place-header">
-                      <span className="place-name">
-                        <strong>{index + 1}.</strong> {p.name}
-                      </span>
-                      <label className={`start-location-radio ${startLocationId === p.id ? 'active' : ''}`} title="Set as start location">
-                        <input
-                           type="radio"
-                           name="startLocation"
-                           checked={startLocationId === p.id}
-                           onChange={() => setStartLocationId(p.id)}
-                        />
-                        Start
-                      </label>
+                      <div className="place-header-left">
+                        <span className="place-name">
+                          <strong>{index + 1}.</strong> {p.name}
+                        </span>
+                      </div>
+                      <div className="place-actions">
+                        <label
+                          className={`start-location-radio ${
+                            startLocationId === p.id ? "active" : ""
+                          }`}
+                          title="Set as start location"
+                        >
+                          <input
+                            type="radio"
+                            name="startLocation"
+                            checked={startLocationId === p.id}
+                            onChange={() => setStartLocationId(p.id)}
+                          />
+                          Start
+                        </label>
+                        <button
+                          type="button"
+                          className="remove-place-button"
+                          onClick={() => handleRemovePlace(p.id)}
+                        >
+                          ✕
+                        </button>
+                      </div>
                     </div>
 
                     <div className="place-settings">
@@ -268,11 +306,39 @@ function App() {
         </aside>
 
         <main className="map-container">
+          {/* <Map
+            defaultZoom={13}
+            defaultCenter={{ lat: 52.2297, lng: 21.0122 }}
+            mapId="DEMO_MAP_ID"
+          /> */}
           <Map
             defaultZoom={13}
             defaultCenter={{ lat: 52.2297, lng: 21.0122 }}
             mapId="DEMO_MAP_ID"
-          />
+          >
+            {orderedPlaces.map((place, index) => (
+              <Marker
+                key={place.id}
+                position={{
+                  lat: place.lat,
+                  lng: place.lng,
+                }}
+                label={`${index + 1}`}
+              />
+            ))}
+
+            {orderedPlaces.length > 1 && (
+              <Polyline
+                path={orderedPlaces.map((place) => ({
+                  lat: place.lat,
+                  lng: place.lng,
+                }))}
+                strokeColor="#4285F4"
+                strokeOpacity={1.0}
+                strokeWeight={4}
+              />
+            )}
+          </Map>
         </main>
       </div>
     </APIProvider>
