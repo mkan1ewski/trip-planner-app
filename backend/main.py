@@ -1,8 +1,8 @@
-import asyncio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from utilities.algorithms.greedy import calculate_route_order as greedy_route_order
 from utilities.algorithms.brute import calculate_route_order as  bruteforce_route_order
+from utilities.request_saver import save_request
 from models import CalculateRouteRequest
 from utilities.matrix_parser import get_route_graph
 
@@ -26,6 +26,8 @@ async def calculate_route(payload: CalculateRouteRequest):
     """
     Receives trip data, queries Google Routes API for distance matrices across multiple travel modes, and returns the results.
     """
+    # Uncomment to save incoming requests for testing purposes
+    # save_request(payload)
     all_place_ids = [point.location_id for point in payload.trip_points]
 
     try:
