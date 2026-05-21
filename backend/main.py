@@ -2,9 +2,8 @@ import asyncio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from utilities.algorithms.greedy import calculate_route_order as greedy_route_order
-from utilities.algorithms.brute import calculate_optimal_route_bruteforce
+from utilities.algorithms.brute import calculate_route_order as  bruteforce_route_order
 from models import CalculateRouteRequest
-from services.google_maps import get_route_matrix
 from utilities.matrix_parser import get_route_graph
 
 app = FastAPI()
@@ -31,8 +30,8 @@ async def calculate_route(payload: CalculateRouteRequest):
 
     try:
         graph = await get_route_graph(origins=all_place_ids, destinations=all_place_ids, travel_mode=payload.travel_mode)
-        # result = greedy_route_order(
-        result = calculate_optimal_route_bruteforce(
+        result = greedy_route_order(
+        # result = bruteforce_route_order(
             graph=graph,
             trip_points=payload.trip_points,
             start_location_id=payload.trip_start_location_id,

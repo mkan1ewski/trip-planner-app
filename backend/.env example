@@ -1,6 +1,6 @@
 # This is an example .env file for the backend. Copy this file to .env and replace the values with your own.
 GOOGLE_MAPS_API_KEY=API_KEY_HERE
-TRAVEL_TIME_WEIGHT=1.0
-URGENCY_WEIGHT=500.0
-TIME_WINDOW_PENALTY_WEIGHT=5.0
+TRAVEL_TIME_WEIGHT = 1.0
+URGENCY_WEIGHT = 2
+TIME_WINDOW_PENALTY_WEIGHT = 5.0
 ATTRACTIVENESS_WEIGHT = 100.0

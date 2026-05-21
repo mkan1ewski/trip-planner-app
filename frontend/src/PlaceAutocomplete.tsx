@@ -16,7 +16,7 @@ export const PlaceAutocomplete = ({ onPlaceSelect }: PlaceAutocompleteProps) => 
     if (!places || !inputRef.current) return;
 
     const widget = new places.Autocomplete(inputRef.current, {
-      fields: ['geometry', 'name', 'place_id', 'opening_hours'],
+      fields: ['geometry', 'name', 'place_id', 'opening_hours', 'rating'],
     });
 
     setAutocomplete(widget);

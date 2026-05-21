@@ -21,6 +21,7 @@ class TripPoint(BaseModel):
     time_window_end: str | None = None
     coordinates: Coordinates
     opening_hours: dict | None = None
+    rating: float | None = None
 
 class CalculateRouteRequest(BaseModel):
     trip_start_location_id: str | None = None

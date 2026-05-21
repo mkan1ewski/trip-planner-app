@@ -51,7 +51,8 @@ body, html {
 
 .time-settings-row {
   display: flex;
-  gap: 15px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .travel-mode-section {

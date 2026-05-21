@@ -21,18 +21,28 @@ interface TripPlace {
   visitTimeWindowStart: string;
   visitTimeWindowEnd: string;
   openingHours?: any;
+  rating?: number;
 }
 
 function App() {
   const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const BACKEND_URL =
-    import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 
   const [placesList, setPlacesList] = useState<TripPlace[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const getCurrentDateTimeLocal = () => {
+    const now = new Date();
+
+    const offset = now.getTimezoneOffset();
+    const local = new Date(now.getTime() - offset * 60 * 1000);
+
+    return local.toISOString().slice(0, 16);
+  };
+
   const [startLocationId, setStartLocationId] = useState<string | null>(null);
-  const [tripStartTime, setTripStartTime] = useState<string>("09:00");
+  const [tripStartTime, setTripStartTime] = useState<string>(getCurrentDateTimeLocal());
   const [tripEndTime, setTripEndTime] = useState<string>("");
   const [travelMode, setTravelMode] = useState('DRIVE');
   const [routeOrder, setRouteOrder] = useState<string[]>([]);
@@ -51,6 +61,7 @@ function App() {
         visitTimeWindowStart: "",
         visitTimeWindowEnd: "",
         openingHours: place.opening_hours,
+        rating: place.rating,
       };
 
       setPlacesList((prevList) => {
@@ -61,6 +72,11 @@ function App() {
         return newList;
       });
     }
+  };
+
+  const getGoogleWeekday = (dateString: string): number => {
+    const date = new Date(dateString);
+    return date.getDay();
   };
 
   const handlePlaceChange = (id: string, field: keyof TripPlace, value: any) => {
@@ -94,6 +110,7 @@ function App() {
           longitude: place.lng,
         },
         opening_hours: place.openingHours,
+        rating: place.rating,
       })),
     };
 
@@ -143,7 +160,7 @@ function App() {
               <div className="setting-row">
                 <label>Start Time:</label>
                 <input
-                  type="time"
+                  type="datetime-local"
                   className="time-input"
                   value={tripStartTime}
                   onChange={(e) => setTripStartTime(e.target.value)}
@@ -152,7 +169,7 @@ function App() {
               <div className="setting-row">
                 <label>End Time (Optional):</label>
                 <input
-                  type="time"
+                  type="datetime-local"
                   className="time-input"
                   value={tripEndTime}
                   onChange={(e) => setTripEndTime(e.target.value)}
@@ -282,7 +299,7 @@ function App() {
                             type="time"
                             className="time-input"
                             value={p.visitTimeWindowEnd}
-                            onChange={(e) =>
+                            onChange={(e) => 
                               handlePlaceChange(p.id, "visitTimeWindowEnd", e.target.value)
                             }
                           />
