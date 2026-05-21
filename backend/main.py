@@ -1,7 +1,8 @@
 import asyncio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from utilities.algorithms import calculate_route_order
+from utilities.algorithms.greedy import calculate_route_order as greedy_route_order
+from utilities.algorithms.brute import calculate_optimal_route_bruteforce
 from models import CalculateRouteRequest
 from services.google_maps import get_route_matrix
 from utilities.matrix_parser import get_route_graph
@@ -9,8 +10,8 @@ from utilities.matrix_parser import get_route_graph
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
 ]
 
 app.add_middleware(
@@ -30,16 +31,14 @@ async def calculate_route(payload: CalculateRouteRequest):
 
     try:
         graph = await get_route_graph(origins=all_place_ids, destinations=all_place_ids, travel_mode=payload.travel_mode)
-        result = calculate_route_order(
+        # result = greedy_route_order(
+        result = calculate_optimal_route_bruteforce(
             graph=graph,
             trip_points=payload.trip_points,
             start_location_id=payload.trip_start_location_id,
             trip_start_time=payload.trip_start_time,
-            
+            trip_end_time=payload.trip_end_time
         )
-        for elem in payload.trip_points:
-            print(elem.location_name)
-            print(elem.opening_hours)
         return {
             "status": "success",
             "route_order": result
