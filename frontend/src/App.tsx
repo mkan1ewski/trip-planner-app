@@ -26,7 +26,7 @@ interface TripPlace {
 function App() {
   const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
   const BACKEND_URL =
-    import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+    import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
   const [placesList, setPlacesList] = useState<TripPlace[]>([]);
   const [isLoading, setIsLoading] = useState(false);
