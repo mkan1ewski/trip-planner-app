@@ -201,12 +201,11 @@ def calculate_cost(
     time_window_penalty: float,
     attractiveness: float,
 ) -> float:
-    print("-" * 100)
-    print(f"travel_time_cost: {TRAVEL_TIME_WEIGHT * edge_duration_seconds}")
-    print(f"urgency_cost: {URGENCY_WEIGHT * urgency}")
-    print(f"time_window_penalty_cost: {TIME_WINDOW_PENALTY_WEIGHT * time_window_penalty}")
-    print(f"attractiveness_cost: {ATTRACTIVENESS_WEIGHT * attractiveness}")
-    print(type(edge_duration_seconds), type(urgency), type(time_window_penalty), type(attractiveness))
+    # print("-" * 100)
+    # print(f"travel_time_cost: {TRAVEL_TIME_WEIGHT * edge_duration_seconds}")
+    # print(f"urgency_cost: {URGENCY_WEIGHT * urgency}")
+    # print(f"time_window_penalty_cost: {TIME_WINDOW_PENALTY_WEIGHT * time_window_penalty}")
+    # print(f"attractiveness_cost: {ATTRACTIVENESS_WEIGHT * attractiveness}")
     return (
         TRAVEL_TIME_WEIGHT
         * edge_duration_seconds
