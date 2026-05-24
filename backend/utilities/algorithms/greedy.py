@@ -13,6 +13,7 @@ TRAVEL_TIME_WEIGHT = float(os.getenv("TRAVEL_TIME_WEIGHT") or 1.0)
 URGENCY_WEIGHT = float(os.getenv("URGENCY_WEIGHT") or 2.0)
 TIME_WINDOW_PENALTY_WEIGHT = float(os.getenv("TIME_WINDOW_PENALTY_WEIGHT") or 5.0)
 ATTRACTIVENESS_WEIGHT = float(os.getenv("ATTRACTIVENESS_WEIGHT") or 100.0)
+MAX_WAIT_HOURS = float(os.getenv("MAX_WAIT_HOURS") or 2)
 
 
 # =========================================================
@@ -66,7 +67,7 @@ def iter_open_periods(point: TripPoint, reference_date: datetime):
 
         current_day = to_google_day(reference_date)
 
-        day_offset = open_day - current_day
+        day_offset = (open_day - current_day) % 7
 
         open_dt += timedelta(days=day_offset)
         close_dt += timedelta(days=day_offset)
@@ -76,22 +77,63 @@ def iter_open_periods(point: TripPoint, reference_date: datetime):
 
         yield open_dt, close_dt
 
-def is_place_open(
+def calculate_visit_times(
     point: TripPoint,
     arrival_time: datetime,
-    leave_time: datetime,
-) -> bool:
+    stay_duration: timedelta,
+):
 
     if not point.opening_hours:
-        return True
+
+        leave_time = arrival_time + stay_duration
+
+        return {
+            "is_valid": True,
+            "arrival_time": arrival_time,
+            "leave_time": leave_time,
+            "waiting_time_seconds": 0,
+        }
+
+    best_option = None
 
     for open_dt, close_dt in iter_open_periods(
         point,
         arrival_time,
     ):
-        if open_dt <= arrival_time and leave_time <= close_dt:
-            return True
-    return False
+
+        actual_arrival = max(arrival_time, open_dt)
+
+        leave_time = actual_arrival + stay_duration
+
+        if leave_time > close_dt:
+            continue
+
+        waiting_time_seconds = max(0, int((actual_arrival - arrival_time).total_seconds()))
+
+        max_wait_seconds = int(MAX_WAIT_HOURS * 60 * 60)
+
+        if waiting_time_seconds > max_wait_seconds:
+            continue
+
+        if (
+            best_option is None
+            or waiting_time_seconds
+            < best_option["waiting_time_seconds"]
+        ):
+
+            best_option = {
+                "is_valid": True,
+                "arrival_time": actual_arrival,
+                "leave_time": leave_time,
+                "waiting_time_seconds": waiting_time_seconds,
+            }
+
+    if best_option:
+        return best_option
+
+    return {
+        "is_valid": False,
+    }
     
 def get_closing_datetime(point: TripPoint, arrival_time: datetime) -> datetime | None:
     for open_dt, close_dt in iter_open_periods(point, arrival_time):
@@ -264,6 +306,7 @@ def calculate_route_order(
 
         best_candidate = None
         best_cost = float("inf")
+        best_visit_info = None
 
         # -------------------------------------------------
         # CHECK ALL POSSIBLE DESTINATIONS
@@ -284,20 +327,35 @@ def calculate_route_order(
 
             stay_duration = get_stay_duration(candidate)
 
-            leave_time = arrival_time + stay_duration
+            visit_info = calculate_visit_times(
+                candidate,
+                arrival_time,
+                stay_duration,
+            )
+
+            if not visit_info["is_valid"]:
+                continue
+
+            arrival_time = visit_info["arrival_time"]
+
+            leave_time = visit_info["leave_time"]
+
+            waiting_time_seconds = visit_info[
+                "waiting_time_seconds"
+            ]
 
             # ---------------------------------------------
             # HARD CONSTRAINT:
             # trip end
-            # opening hours
             # ---------------------------------------------
-            exceeds_trip_end = trip_end_datetime and leave_time > trip_end_datetime
 
-            place_closed = not is_place_open(candidate, arrival_time, leave_time)
+            exceeds_trip_end = (
+                trip_end_datetime
+                and leave_time > trip_end_datetime
+            )
 
-            if exceeds_trip_end or place_closed:
+            if exceeds_trip_end:
                 continue
-
             # ---------------------------------------------
             # SOFT CONSTRAINTS
             # ---------------------------------------------
@@ -322,6 +380,7 @@ def calculate_route_order(
             if cost < best_cost:
                 best_cost = cost
                 best_candidate = candidate
+                best_visit_info = visit_info
 
         # -------------------------------------------------
         # NO MORE VALID CANDIDATES
@@ -338,17 +397,18 @@ def calculate_route_order(
 
         edge = graph.get_edge(current_index, next_index)
 
-        travel_time = seconds_to_timedelta(edge.duration_seconds)
-
         stay_duration = get_stay_duration(best_candidate)
+        waiting_time_seconds = best_visit_info["waiting_time_seconds"]
+
+        leave_time = best_visit_info["leave_time"]
 
         total_duration_seconds += edge.duration_seconds
 
-        total_duration_seconds += int(
-            stay_duration.total_seconds()
-        )
+        total_duration_seconds += waiting_time_seconds
 
-        current_time = current_time + travel_time + stay_duration
+        total_duration_seconds += int(stay_duration.total_seconds())
+
+        current_time = leave_time
 
         current_location_id = best_candidate.location_id
 

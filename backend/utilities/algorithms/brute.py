@@ -20,23 +20,71 @@ OPENING_HOURS_PENALTY_WEIGHT = float(
 # HELPERS
 # =========================================================
 
-def is_place_open(
+def calculate_visit_times(
     point: TripPoint,
     arrival_time: datetime,
-    leave_time: datetime,
-) -> bool:
+    stay_duration: timedelta,
+):
 
     if not point.opening_hours:
-        return True
+
+        leave_time = arrival_time + stay_duration
+
+        return {
+            "is_valid": True,
+            "arrival_time": arrival_time,
+            "leave_time": leave_time,
+            "waiting_time_seconds": 0,
+        }
+
+    best_option = None
 
     for open_dt, close_dt in iter_open_periods(
         point,
         arrival_time,
     ):
-        if open_dt <= arrival_time and leave_time <= close_dt:
-            return True
 
-    return False
+        actual_arrival = max(
+            arrival_time,
+            open_dt,
+        )
+
+        leave_time = (
+            actual_arrival + stay_duration
+        )
+
+        if leave_time > close_dt:
+            continue
+
+        waiting_time_seconds = max(
+            0,
+            int(
+                (
+                    actual_arrival
+                    - arrival_time
+                ).total_seconds()
+            )
+        )
+
+        if (
+            best_option is None
+            or waiting_time_seconds
+            < best_option["waiting_time_seconds"]
+        ):
+
+            best_option = {
+                "is_valid": True,
+                "arrival_time": actual_arrival,
+                "leave_time": leave_time,
+                "waiting_time_seconds": waiting_time_seconds,
+            }
+
+    if best_option:
+        return best_option
+
+    return {
+        "is_valid": False,
+    }
 
 
 def parse_datetime(datetime_str: str) -> datetime:
@@ -175,22 +223,26 @@ def calculate_route_cost(
             next_point
         )
 
-        leave_time = (
-            arrival_time + stay_duration
+        visit_info = calculate_visit_times(
+            next_point,
+            arrival_time,
+            stay_duration,
         )
+
+        if not visit_info["is_valid"]:
+            return False, 0, 0
+
+        arrival_time = visit_info["arrival_time"]
+
+        leave_time = visit_info["leave_time"]
+
+        waiting_time_seconds = visit_info[
+            "waiting_time_seconds"
+        ]
 
         # ---------------------------------------------
         # HARD CONSTRAINTS
         # ---------------------------------------------
-
-        place_closed = not is_place_open(
-            next_point,
-            arrival_time,
-            leave_time,
-        )
-
-        if place_closed:
-            return False, 0, 0
 
         if (
             trip_end_datetime
@@ -204,13 +256,11 @@ def calculate_route_cost(
 
         current_time = leave_time
 
-        total_duration_seconds += (
-            edge.duration_seconds
-        )
+        total_duration_seconds += edge.duration_seconds
 
-        total_duration_seconds += int(
-            stay_duration.total_seconds()
-        )
+        total_duration_seconds += waiting_time_seconds
+
+        total_duration_seconds += int(stay_duration.total_seconds())
 
     total_cost = total_duration_seconds
 
