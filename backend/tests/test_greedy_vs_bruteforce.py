@@ -1,5 +1,6 @@
 import json
 import time
+import argparse
 from pathlib import Path
 
 import requests
@@ -14,6 +15,13 @@ GREEDY_URL = BASE_URL + "/api/calculate"
 BRUTEFORCE_URL = BASE_URL + "/api/calculateBruteforce"
 
 DATA_DIR = Path("tests/data")
+
+REPORTS_DIR = Path("tests/reports")
+
+REPORTS_DIR.mkdir(
+    parents=True,
+    exist_ok=True,
+)
 
 
 def load_payload(file_path: Path) -> dict:
@@ -53,12 +61,49 @@ def format_duration(seconds: int) -> str:
     return f"{hours}h {minutes}min"
 
 
-def test_saved_requests():
+def generate_markdown_report(results: list[dict]) -> str:
+
+    lines = []
+
+    lines.append("# Greedy vs Bruteforce Report\n")
+
+    lines.append(
+        "| File | Points | Greedy Places | Brute Places | Greedy Duration | Brute Duration | Avg/Place Greedy | Avg/Place Brute | Total Diff Score | Speedup |"
+    )
+
+    lines.append(
+        "|---|---|---|---|---|---|---|---|---|---|"
+    )
+
+    for result in results:
+
+        lines.append(
+            f"| "
+            f"{result['file']} | "
+            f"{result['trip_points']} | "
+            f"{result['greedy_places']} | "
+            f"{result['brute_places']} | "
+            f"{result['greedy_duration']} | "
+            f"{result['brute_duration']} | "
+            f"{result['greedy_avg']:.2f} min | "
+            f"{result['brute_avg']:.2f} min | "
+            f"{result['total_diff']:.2f} | "
+            f"{result['speedup']:.2f}x |"
+        )
+
+    return "\n".join(lines)
+
+
+def test_saved_requests(
+    save_report: bool = False,
+):
     print("Testing saved requests...\n")
 
     request_files = sorted(
         DATA_DIR.glob("test_*.json")
     )
+
+    report_results = []
 
     for file_path in request_files:
 
@@ -274,8 +319,65 @@ def test_saved_requests():
                 f"Greedy speedup: {speedup:.2f}x"
             )
 
+        else:
+            speedup = 0
+
         print()
+
+        # -------------------------------------------------
+        # REPORT DATA
+        # -------------------------------------------------
+
+        report_results.append({
+            "file": file_path.name,
+            "trip_points": trip_points_count,
+            "greedy_places": greedy_places_count,
+            "brute_places": brute_places_count,
+            "greedy_duration": format_duration(
+                greedy_trip_duration
+            ),
+            "brute_duration": format_duration(
+                brute_trip_duration
+            ),
+            "greedy_avg": (
+                greedy_avg_per_place / 60
+            ),
+            "brute_avg": (
+                brute_avg_per_place / 60
+            ),
+            "total_diff": total_difference_score,
+            "speedup": speedup,
+        })
+
+    # -----------------------------------------------------
+    # SAVE REPORT
+    # -----------------------------------------------------
+
+    if save_report:
+        timestamp = time.strftime("%Y%m%d_%H%M%S")
+
+        report_path = (REPORTS_DIR / f"report_{timestamp}.md")
+
+        markdown = generate_markdown_report(report_results)
+
+        with open(report_path, "w", encoding="utf-8") as f:
+            f.write(markdown)
+
+        print(
+            f"\nReport saved to: {report_path}"
+        )
 
 
 if __name__ == "__main__":
-    test_saved_requests()
+
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "--report",
+        action="store_true",
+        help="Save markdown report",
+    )
+
+    args = parser.parse_args()
+
+    test_saved_requests(save_report=args.report)

@@ -11,9 +11,8 @@ load_dotenv()
 # CONFIG
 # =========================================================
 
-OPENING_HOURS_PENALTY_WEIGHT = float(
-    os.getenv("OPENING_HOURS_PENALTY_WEIGHT") or 60.0
-)
+OPENING_HOURS_PENALTY_WEIGHT = float(os.getenv("OPENING_HOURS_PENALTY_WEIGHT") or 60.0)
+MAX_WAIT_HOURS = float(os.getenv("MAX_WAIT_HOURS") or 2)
 
 
 # =========================================================
@@ -56,15 +55,12 @@ def calculate_visit_times(
         if leave_time > close_dt:
             continue
 
-        waiting_time_seconds = max(
-            0,
-            int(
-                (
-                    actual_arrival
-                    - arrival_time
-                ).total_seconds()
-            )
-        )
+        waiting_time_seconds = max(0, int((actual_arrival - arrival_time).total_seconds()))
+
+        max_wait_seconds = int(MAX_WAIT_HOURS * 60 * 60)
+
+        if waiting_time_seconds > max_wait_seconds:
+            continue
 
         if (
             best_option is None
@@ -136,7 +132,7 @@ def iter_open_periods(point: TripPoint, reference_date: datetime):
 
         current_day = to_google_day(reference_date)
 
-        day_offset = open_day - current_day
+        day_offset = (open_day - current_day) % 7
 
         open_dt = datetime.combine(
             reference_date.date(),
