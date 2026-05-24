@@ -22,9 +22,6 @@ async def get_route_graph(origins: list, destinations: list, travel_mode: Travel
                 travel_mode=TravelMode.WALK
             )
             transit_matrix = await get_route_matrix(origins=origins, destinations=destinations, travel_mode=TravelMode.TRANSIT)
-            print(walk_matrix)
-            print('-'*40)
-            print(transit_matrix)
             transit_graph = build_graph_from_matrix(
                 matrix=transit_matrix,
                 travel_mode=TravelMode.TRANSIT

@@ -21,8 +21,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.post("/api/calculateBruteforce")
+async def calculate_routeBruteforce(payload: CalculateRouteRequest):
+    return await calculate_route(payload, algorithm="bruteforce")
+
 @app.post("/api/calculate")
-async def calculate_route(payload: CalculateRouteRequest):
+async def calculate_routeGreedy(payload: CalculateRouteRequest):
+    return await calculate_route(payload, algorithm="greedy")
+
+async def calculate_route(payload: CalculateRouteRequest, algorithm: str = "greedy") -> dict:
     """
     Receives trip data, queries Google Routes API for distance matrices across multiple travel modes, and returns the results.
     """
@@ -32,17 +39,26 @@ async def calculate_route(payload: CalculateRouteRequest):
 
     try:
         graph = await get_route_graph(origins=all_place_ids, destinations=all_place_ids, travel_mode=payload.travel_mode)
-        result = greedy_route_order(
-        # result = bruteforce_route_order(
-            graph=graph,
-            trip_points=payload.trip_points,
-            start_location_id=payload.trip_start_location_id,
-            trip_start_time=payload.trip_start_time,
-            trip_end_time=payload.trip_end_time
-        )
+        if algorithm == "greedy":
+            result = greedy_route_order(
+                graph=graph,
+                trip_points=payload.trip_points,
+                start_location_id=payload.trip_start_location_id,
+                trip_start_time=payload.trip_start_time,
+                trip_end_time=payload.trip_end_time
+            )
+        else:
+            result = bruteforce_route_order(
+                graph=graph,
+                trip_points=payload.trip_points,
+                start_location_id=payload.trip_start_location_id,
+                trip_start_time=payload.trip_start_time,
+                trip_end_time=payload.trip_end_time
+            )
         return {
             "status": "success",
-            "route_order": result
+            "route_order": result["route_order"],
+            "total_duration_seconds": result["total_duration_seconds"],
         }
     except Exception as e:
         print(f"Error calculating route: {e}")

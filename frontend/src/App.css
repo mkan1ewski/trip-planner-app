@@ -251,3 +251,32 @@ body, html {
 .remove-place-button:hover {
   opacity: 0.85;
 }
+
+.route-summary {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.route-summary-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.route-summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555;
+}
+
+.route-summary-value {
+  font-weight: bold;
+  color: #111;
+}

@@ -20,6 +20,25 @@ OPENING_HOURS_PENALTY_WEIGHT = float(
 # HELPERS
 # =========================================================
 
+def is_place_open(
+    point: TripPoint,
+    arrival_time: datetime,
+    leave_time: datetime,
+) -> bool:
+
+    if not point.opening_hours:
+        return True
+
+    for open_dt, close_dt in iter_open_periods(
+        point,
+        arrival_time,
+    ):
+        if open_dt <= arrival_time and leave_time <= close_dt:
+            return True
+
+    return False
+
+
 def parse_datetime(datetime_str: str) -> datetime:
     return datetime.fromisoformat(datetime_str)
 
@@ -49,7 +68,7 @@ def to_google_day(dt: datetime) -> int:
 # OPENING HOURS
 # =========================================================
 
-def iter_open_periods(point: TripPoint,reference_date: datetime):
+def iter_open_periods(point: TripPoint, reference_date: datetime):
 
     if not point.opening_hours:
         return
@@ -73,12 +92,18 @@ def iter_open_periods(point: TripPoint,reference_date: datetime):
 
         open_dt = datetime.combine(
             reference_date.date(),
-            time(hour=open_data["hours"], minute=open_data["minutes"])
+            time(
+                hour=open_data["hours"],
+                minute=open_data["minutes"]
+            )
         )
 
         close_dt = datetime.combine(
             reference_date.date(),
-            time(hour=close_data["hours"], minute=close_data["minutes"])
+            time(
+                hour=close_data["hours"],
+                minute=close_data["minutes"]
+            )
         )
 
         open_dt += timedelta(days=day_offset)
@@ -88,57 +113,6 @@ def iter_open_periods(point: TripPoint,reference_date: datetime):
             close_dt += timedelta(days=1)
 
         yield open_dt, close_dt
-
-
-def calculate_opening_hours_penalty(
-    point: TripPoint,
-    arrival_time: datetime,
-    leave_time: datetime,
-) -> float:
-    if not point.opening_hours:
-        return 0
-
-    best_penalty = float("inf")
-
-    found_period = False
-
-    for open_dt, close_dt in iter_open_periods(
-        point,
-        arrival_time,
-    ):
-
-        found_period = True
-
-        # Perfect fit
-        if (
-            open_dt <= arrival_time
-            and leave_time <= close_dt
-        ):
-            return 0
-
-        penalty = 0
-
-        # Arrived before opening
-        if arrival_time < open_dt:
-            penalty += (
-                open_dt - arrival_time
-            ).total_seconds() / 60
-
-        # Leaving after closing
-        if leave_time > close_dt:
-            penalty += (
-                leave_time - close_dt
-            ).total_seconds() / 60
-
-        best_penalty = min(
-            best_penalty,
-            penalty,
-        )
-
-    if not found_period:
-        return 0
-
-    return best_penalty
 
 
 # =========================================================
@@ -151,7 +125,7 @@ def calculate_route_cost(
     start_time: str,
     trip_end_time: str | None = None,
     trip_points: List[TripPoint] | None = None,
-) -> tuple[bool, float]:
+) -> tuple[bool, float, int]:
 
     index_by_id = {
         point.location_id: idx
@@ -168,57 +142,65 @@ def calculate_route_cost(
 
     total_duration_seconds = 0
 
-    total_opening_penalty = 0
-
     for i in range(len(route) - 1):
 
         current_point = route[i]
         next_point = route[i + 1]
 
-        current_index = index_by_id[current_point.location_id]
+        current_index = index_by_id[
+            current_point.location_id
+        ]
 
         next_index = index_by_id[
             next_point.location_id
         ]
 
-        edge = graph.get_edge(current_index, next_index)
+        edge = graph.get_edge(
+            current_index,
+            next_index,
+        )
 
         if edge is None:
-            return False, 0
+            return False, 0, 0
 
-        travel_time = seconds_to_timedelta(edge.duration_seconds)
+        travel_time = seconds_to_timedelta(
+            edge.duration_seconds
+        )
 
-        arrival_time = (current_time + travel_time)
+        arrival_time = (
+            current_time + travel_time
+        )
 
-        stay_duration = get_stay_duration(next_point)
+        stay_duration = get_stay_duration(
+            next_point
+        )
 
-        leave_time = arrival_time + stay_duration
+        leave_time = (
+            arrival_time + stay_duration
+        )
 
         # ---------------------------------------------
-        # HARD CONSTRAINT
+        # HARD CONSTRAINTS
         # ---------------------------------------------
+
+        place_closed = not is_place_open(
+            next_point,
+            arrival_time,
+            leave_time,
+        )
+
+        if place_closed:
+            return False, 0, 0
 
         if (
             trip_end_datetime
             and leave_time > trip_end_datetime
         ):
-            return False, 0
+            return False, 0, 0
 
         # ---------------------------------------------
-        # SOFT CONSTRAINT
+        # UPDATE STATE
         # ---------------------------------------------
-
-        opening_penalty = (
-            calculate_opening_hours_penalty(
-                next_point,
-                arrival_time,
-                leave_time,
-            )
-        )
-
-        total_opening_penalty += (
-            opening_penalty
-        )
 
         current_time = leave_time
 
@@ -230,13 +212,14 @@ def calculate_route_cost(
             stay_duration.total_seconds()
         )
 
-    total_cost = (
-        total_duration_seconds
-        + total_opening_penalty
-        * OPENING_HOURS_PENALTY_WEIGHT
+    total_cost = total_duration_seconds
+
+    return (
+        True,
+        total_cost,
+        total_duration_seconds,
     )
 
-    return True, total_cost
 
 # =========================================================
 # BRUTE FORCE SEARCH
@@ -248,14 +231,16 @@ def calculate_route_order(
     start_location_id: str,
     trip_start_time: str,
     trip_end_time: str | None = None,
-) -> list[str]:
+):
 
     points_by_id = {
         point.location_id: point
         for point in trip_points
     }
 
-    start_point = points_by_id[start_location_id]
+    start_point = points_by_id[
+        start_location_id
+    ]
 
     remaining_points = [
         point
@@ -267,28 +252,92 @@ def calculate_route_order(
 
     best_cost = float("inf")
 
-    for permutation in permutations(remaining_points):
+    best_duration_seconds = 0
 
-        candidate_route = [start_point, *permutation]
+    # =====================================================
+    # PARTIAL + FULL ROUTES
+    # =====================================================
 
-        is_valid, total_cost = (
-            calculate_route_cost(
+    for r in range(
+        1,
+        len(remaining_points) + 1
+    ):
+
+        for permutation in permutations(
+            remaining_points,
+            r,
+        ):
+
+            candidate_route = [
+                start_point,
+                *permutation,
+            ]
+
+            (
+                is_valid,
+                total_cost,
+                total_duration_seconds,
+            ) = calculate_route_cost(
                 graph=graph,
                 route=candidate_route,
                 start_time=trip_start_time,
                 trip_end_time=trip_end_time,
                 trip_points=trip_points,
             )
-        )
 
-        if not is_valid:
-            continue
+            if not is_valid:
+                continue
 
-        if total_cost < best_cost:
-            best_cost = total_cost
-            best_route = candidate_route
+            # Prefer longer valid routes
+            if (
+                best_route is None
+                or len(candidate_route) > len(best_route)
+            ):
+                best_route = candidate_route
+
+                best_cost = total_cost
+
+                best_duration_seconds = (
+                    total_duration_seconds
+                )
+
+                continue
+
+            # Same length -> optimize cost
+            if (
+                len(candidate_route)
+                == len(best_route)
+                and total_cost < best_cost
+            ):
+
+                best_route = candidate_route
+
+                best_cost = total_cost
+
+                best_duration_seconds = (
+                    total_duration_seconds
+                )
+
+    # =====================================================
+    # NO VALID ROUTE
+    # =====================================================
 
     if best_route is None:
-        return []
+        return {
+            "route_order": [],
+            "total_duration_seconds": 0,
+        }
 
-    return [point.location_id for point in best_route]
+    # =====================================================
+    # RESULT
+    # =====================================================
+
+    return {
+        "route_order": [
+            point.location_id
+            for point in best_route
+        ],
+        "total_duration_seconds": (
+            best_duration_seconds
+        ),
+    }

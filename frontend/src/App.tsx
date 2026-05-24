@@ -46,7 +46,8 @@ function App() {
   const [tripEndTime, setTripEndTime] = useState<string>("");
   const [travelMode, setTravelMode] = useState('DRIVE');
   const [routeOrder, setRouteOrder] = useState<string[]>([]);
-  
+  const [totalDurationSeconds, setTotalDurationSeconds] = useState<number>(0);
+
   if (!API_KEY) return <div>No API key</div>;
 
   const handlePlaceSelect = (place: google.maps.places.PlaceResult | null) => {
@@ -87,6 +88,13 @@ function App() {
     );
   };
 
+  const formatDuration = (seconds: number) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+
+    return `${hours}h ${minutes}min`;
+  };
+
   const handleCalculateRoute = async () => {
     if (placesList.length < 2) {
       alert("Please add at least 2 places to calculate a route!");
@@ -121,7 +129,11 @@ function App() {
         `${BACKEND_URL}/api/calculate`,
         requestPayload,
       );
+
       setRouteOrder(response.data.route_order || []);
+      setTotalDurationSeconds(
+        response.data.total_duration_seconds || 0
+      );
 
     } catch (error) {
       alert("Error connecting to the backend.");
@@ -176,7 +188,7 @@ function App() {
                 />
               </div>
             </div>
-            
+
             <div className="travel-mode-section">
               <label>Travel Mode:</label>
 
@@ -299,7 +311,7 @@ function App() {
                             type="time"
                             className="time-input"
                             value={p.visitTimeWindowEnd}
-                            onChange={(e) => 
+                            onChange={(e) =>
                               handlePlaceChange(p.id, "visitTimeWindowEnd", e.target.value)
                             }
                           />
@@ -320,14 +332,25 @@ function App() {
           >
             {isLoading ? "Calculating..." : "Calculate Route"}
           </button>
+
+          {totalDurationSeconds > 0 && (
+            <div className="route-summary">
+              <div className="route-summary-title">
+                Route Summary
+              </div>
+
+              <div className="route-summary-row">
+                <span>Total duration:</span>
+
+                <span className="route-summary-value">
+                  {formatDuration(totalDurationSeconds)}
+                </span>
+              </div>
+            </div>
+          )}
         </aside>
 
         <main className="map-container">
-          {/* <Map
-            defaultZoom={13}
-            defaultCenter={{ lat: 52.2297, lng: 21.0122 }}
-            mapId="DEMO_MAP_ID"
-          /> */}
           <Map
             defaultZoom={13}
             defaultCenter={{ lat: 52.2297, lng: 21.0122 }}

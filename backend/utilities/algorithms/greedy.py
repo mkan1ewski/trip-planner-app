@@ -189,7 +189,7 @@ def calculate_urgency(point: TripPoint, arrival_time: datetime) -> float:
     if remaining_minutes <= 0:
         return 999999
     
-    return remaining_minutes
+    return 1 / remaining_minutes
 
 # =========================================================
 # COST FUNCTION
@@ -228,7 +228,7 @@ def calculate_route_order(
     start_location_id: str,
     trip_start_time: str,
     trip_end_time: str | None = None,
-) -> list[str]:
+):
     index_by_id = {
         point.location_id: idx
         for idx, point in enumerate(trip_points)
@@ -247,6 +247,8 @@ def calculate_route_order(
     visited = set()
 
     route_order = []
+
+    total_duration_seconds = 0
 
     # -----------------------------------------------------
     # GREEDY LOOP
@@ -340,8 +342,17 @@ def calculate_route_order(
 
         stay_duration = get_stay_duration(best_candidate)
 
+        total_duration_seconds += edge.duration_seconds
+
+        total_duration_seconds += int(
+            stay_duration.total_seconds()
+        )
+
         current_time = current_time + travel_time + stay_duration
 
         current_location_id = best_candidate.location_id
 
-    return route_order
+    return {
+        "route_order": route_order,
+        "total_duration_seconds": total_duration_seconds,
+    }
