@@ -123,7 +123,21 @@ def iter_open_periods(point: TripPoint, reference_date: datetime):
         open_data = period.get("open")
         close_data = period.get("close")
 
-        if not open_data or not close_data:
+        if not open_data:
+            continue
+
+        # 24/7 place
+        if not close_data:
+
+            open_dt = datetime.combine(
+                reference_date.date(),
+                time.min,
+            )
+
+            close_dt = open_dt + timedelta(days=7)
+
+            yield open_dt, close_dt
+
             continue
 
         open_day = open_data["day"]
@@ -177,6 +191,25 @@ def calculate_route_cost(
 
     current_time = parse_datetime(start_time)
 
+    start_point = route[0]
+
+    start_stay_duration = get_stay_duration(
+        start_point
+    )
+
+    start_visit_info = calculate_visit_times(
+        start_point,
+        current_time,
+        start_stay_duration,
+    )
+
+    if not start_visit_info["is_valid"]:
+        return False, 0, 0, []
+
+    current_time = start_visit_info[
+        "leave_time"
+    ]
+
     trip_end_datetime = (
         parse_datetime(trip_end_time)
         if trip_end_time
@@ -184,6 +217,17 @@ def calculate_route_cost(
     )
 
     total_duration_seconds = 0
+
+    total_duration_seconds += (
+        start_visit_info[
+            "waiting_time_seconds"
+        ]
+    )
+
+    total_duration_seconds += int(
+        start_stay_duration.total_seconds()
+    )
+
     route_segments = []
 
     for i in range(len(route) - 1):
@@ -204,6 +248,9 @@ def calculate_route_cost(
             next_index,
         )
 
+        if edge is None:
+            return False, 0, 0, []
+
         route_segments.append({
             "from_location_id": current_point.location_id,
             "to_location_id": next_point.location_id,
@@ -211,9 +258,6 @@ def calculate_route_cost(
             "travel_duration_seconds": edge.duration_seconds,
             "distance_meters": edge.distance_meters,
         })
-
-        if edge is None:
-            return False, 0, 0, []
 
         travel_time = seconds_to_timedelta(
             edge.duration_seconds
@@ -316,7 +360,7 @@ def calculate_route_order(
     # =====================================================
 
     for r in range(
-        1,
+        0,
         len(remaining_points) + 1
     ):
 

@@ -49,6 +49,22 @@ def iter_open_periods(point: TripPoint, reference_date: datetime):
         open_data = period.get("open")
         close_data = period.get("close")
 
+        if not open_data:
+            continue
+
+        if not close_data:
+
+            open_dt = datetime.combine(
+                reference_date.date(),
+                time.min,
+            )
+
+            close_dt = open_dt + timedelta(days=7)
+
+            yield open_dt, close_dt
+
+            continue
+
         if not open_data or not close_data:
             continue
 
