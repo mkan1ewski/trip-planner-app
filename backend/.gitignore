@@ -221,4 +221,5 @@ __marimo__/
 
 tests/data/*
 !tests/data/test_*.json
+!tests/data/efficiency_test_*.json
 tests/reports

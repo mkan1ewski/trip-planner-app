@@ -1,0 +1,369 @@
+{
+  "trip_start_location_id": "ChIJm_uSxY7LHkcRfCl8PScvsxI",
+  "trip_start_time": "2026-05-25T09:18",
+  "trip_end_time": "2026-05-25T10:30",
+  "travel_mode": "DRIVE",
+  "trip_points": [
+    {
+      "location_id": "ChIJ0cxQolvMHkcRYAlBuLnx1gg",
+      "location_name": "Centrum Nauki Kopernik",
+      "min_duration_minutes": 60,
+      "max_duration_minutes": 120,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2418552,
+        "longitude": 21.0287271
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "1900",
+              "hours": 19,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "1900",
+              "hours": 19,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 08:00\u201318:00",
+          "wtorek: 08:00\u201318:00",
+          "\u015broda: 08:00\u201318:00",
+          "czwartek: 08:00\u201318:00",
+          "pi\u0105tek: 08:00\u201320:00",
+          "sobota: 09:00\u201319:00",
+          "niedziela: 09:00\u201319:00"
+        ]
+      },
+      "rating": 4.6
+    },
+    {
+      "location_id": "ChIJ8YumCojMHkcRYTohOBROLvc",
+      "location_name": "Hala Mirowska",
+      "min_duration_minutes": 60,
+      "max_duration_minutes": 120,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2388775,
+        "longitude": 20.9973431
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 1,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "0700",
+              "hours": 7,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "0700",
+              "hours": 7,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "0700",
+              "hours": 7,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "0700",
+              "hours": 7,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "0700",
+              "hours": 7,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "0700",
+              "hours": 7,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 07:00\u201320:00",
+          "wtorek: 07:00\u201320:00",
+          "\u015broda: 07:00\u201320:00",
+          "czwartek: 07:00\u201320:00",
+          "pi\u0105tek: 07:00\u201320:00",
+          "sobota: 07:00\u201318:00",
+          "niedziela: Zamkni\u0119te"
+        ]
+      },
+      "rating": 4.4
+    },
+    {
+      "location_id": "ChIJm_uSxY7LHkcRfCl8PScvsxI",
+      "location_name": "Westfield Arkadia",
+      "min_duration_minutes": 60,
+      "max_duration_minutes": 90,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.25645590000001,
+        "longitude": 20.9842252
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 10:00\u201322:00",
+          "wtorek: 10:00\u201322:00",
+          "\u015broda: 10:00\u201322:00",
+          "czwartek: 10:00\u201322:00",
+          "pi\u0105tek: 10:00\u201322:00",
+          "sobota: 10:00\u201322:00",
+          "niedziela: 10:00\u201322:00"
+        ]
+      },
+      "rating": 4.5
+    }
+  ]
+}

@@ -1,0 +1,1759 @@
+{
+  "trip_start_location_id": "ChIJB1RFG2bMHkcRvslJ-0ahGSA",
+  "trip_start_time": "2026-05-25T09:24",
+  "trip_end_time": null,
+  "travel_mode": "DRIVE",
+  "trip_points": [
+    {
+      "location_id": "ChIJ435ebh7NHkcRcaqhXGG2Vow",
+      "location_name": "\u0141azienki Kr\u00f3lewskie",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2146733,
+        "longitude": 21.0328941
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 06:00\u201322:00",
+          "wtorek: 06:00\u201322:00",
+          "\u015broda: 06:00\u201322:00",
+          "czwartek: 06:00\u201322:00",
+          "pi\u0105tek: 06:00\u201322:00",
+          "sobota: 06:00\u201322:00",
+          "niedziela: 06:00\u201322:00"
+        ]
+      },
+      "rating": 4.8
+    },
+    {
+      "location_id": "ChIJSS5pkozMHkcRwi0fMeV66cI",
+      "location_name": "Pa\u0142ac Kultury i Nauki",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.231838,
+        "longitude": 21.005995
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 10:00\u201320:00",
+          "wtorek: 10:00\u201320:00",
+          "\u015broda: 10:00\u201320:00",
+          "czwartek: 10:00\u201320:00",
+          "pi\u0105tek: 10:00\u201320:00",
+          "sobota: 10:00\u201320:00",
+          "niedziela: 10:00\u201320:00"
+        ]
+      },
+      "rating": 4.6
+    },
+    {
+      "location_id": "ChIJB1RFG2bMHkcRvslJ-0ahGSA",
+      "location_name": "Zamek Kr\u00f3lewski w Warszawie",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 1,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2477436,
+        "longitude": 21.0141275
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: Zamkni\u0119te",
+          "wtorek: 10:00\u201318:00",
+          "\u015broda: 10:00\u201318:00",
+          "czwartek: 10:00\u201318:00",
+          "pi\u0105tek: 10:00\u201318:00",
+          "sobota: 10:00\u201318:00",
+          "niedziela: 10:00\u201318:00"
+        ]
+      },
+      "rating": 4.7
+    },
+    {
+      "location_id": "ChIJ3Xb5SW_MHkcRT2114lb00lA",
+      "location_name": "Stare Miasto",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2477331,
+        "longitude": 21.0136079
+      },
+      "opening_hours": null,
+      "rating": null
+    },
+    {
+      "location_id": "ChIJiaL1OYPMHkcRJcZiOrY2hqk",
+      "location_name": "Muzeum Powstania Warszawskiego",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.23239359999999,
+        "longitude": 20.9810185
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 08:00\u201318:00",
+          "wtorek: Zamkni\u0119te",
+          "\u015broda: 08:00\u201318:00",
+          "czwartek: 08:00\u201318:00",
+          "pi\u0105tek: 08:00\u201318:00",
+          "sobota: 10:00\u201318:00",
+          "niedziela: 10:00\u201318:00"
+        ]
+      },
+      "rating": 4.7
+    },
+    {
+      "location_id": "ChIJc7iVqXnMHkcRsDBEUEPaGuI",
+      "location_name": "POLIN Muzeum Historii \u017byd\u00f3w Polskich",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2494958,
+        "longitude": 20.993481
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 10:00\u201318:00",
+          "wtorek: Zamkni\u0119te",
+          "\u015broda: 10:00\u201318:00",
+          "czwartek: 10:00\u201318:00",
+          "pi\u0105tek: 10:00\u201318:00",
+          "sobota: 10:00\u201320:00",
+          "niedziela: 10:00\u201318:00"
+        ]
+      },
+      "rating": 4.6
+    },
+    {
+      "location_id": "ChIJ0cxQolvMHkcRYAlBuLnx1gg",
+      "location_name": "Centrum Nauki Kopernik",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 1,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2418552,
+        "longitude": 21.0287271
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "1900",
+              "hours": 19,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "1900",
+              "hours": 19,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 08:00\u201318:00",
+          "wtorek: 08:00\u201318:00",
+          "\u015broda: 08:00\u201318:00",
+          "czwartek: 08:00\u201318:00",
+          "pi\u0105tek: 08:00\u201320:00",
+          "sobota: 09:00\u201319:00",
+          "niedziela: 09:00\u201319:00"
+        ]
+      },
+      "rating": 4.6
+    },
+    {
+      "location_id": "ChIJ9WU3zVTNHkcR-ouaCo6lgnI",
+      "location_name": "Bulwar Flotylli Wi\u015blanej",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2325615,
+        "longitude": 21.0410605
+      },
+      "opening_hours": {
+        "open_now": true,
+        "periods": [
+          {
+            "open": {
+              "day": 0,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: Czynne ca\u0142\u0105 dob\u0119",
+          "wtorek: Czynne ca\u0142\u0105 dob\u0119",
+          "\u015broda: Czynne ca\u0142\u0105 dob\u0119",
+          "czwartek: Czynne ca\u0142\u0105 dob\u0119",
+          "pi\u0105tek: Czynne ca\u0142\u0105 dob\u0119",
+          "sobota: Czynne ca\u0142\u0105 dob\u0119",
+          "niedziela: Czynne ca\u0142\u0105 dob\u0119"
+        ]
+      },
+      "rating": 4.9
+    },
+    {
+      "location_id": "ChIJkUWehmHMHkcRR-72WJvPCFg",
+      "location_name": "Ogr\u00f3d Saski",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.240265,
+        "longitude": 21.0076336
+      },
+      "opening_hours": {
+        "open_now": true,
+        "periods": [
+          {
+            "open": {
+              "day": 0,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: Czynne ca\u0142\u0105 dob\u0119",
+          "wtorek: Czynne ca\u0142\u0105 dob\u0119",
+          "\u015broda: Czynne ca\u0142\u0105 dob\u0119",
+          "czwartek: Czynne ca\u0142\u0105 dob\u0119",
+          "pi\u0105tek: Czynne ca\u0142\u0105 dob\u0119",
+          "sobota: Czynne ca\u0142\u0105 dob\u0119",
+          "niedziela: Czynne ca\u0142\u0105 dob\u0119"
+        ]
+      },
+      "rating": 4.7
+    },
+    {
+      "location_id": "ChIJ6xic6UAtGUcRIVWoCEyUf1A",
+      "location_name": "Muzeum Pa\u0142acu Kr\u00f3la Jana III w Wilanowie",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 1,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.1651749,
+        "longitude": 21.0905084
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "1600",
+              "hours": 16,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "1600",
+              "hours": 16,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "1600",
+              "hours": 16,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "1600",
+              "hours": 16,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "1600",
+              "hours": 16,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "1600",
+              "hours": 16,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 10:00\u201316:00",
+          "wtorek: 10:00\u201316:00",
+          "\u015broda: 10:00\u201318:00",
+          "czwartek: 10:00\u201316:00",
+          "pi\u0105tek: 10:00\u201316:00",
+          "sobota: 10:00\u201316:00",
+          "niedziela: 10:00\u201316:00"
+        ]
+      },
+      "rating": 4.7
+    },
+    {
+      "location_id": "ChIJK6UEcvfMHkcR0iGDJoZsIgc",
+      "location_name": "Muzeum Narodowe w Warszawie",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2321171,
+        "longitude": 21.0242024
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "1800",
+              "hours": 18,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: Zamkni\u0119te",
+          "wtorek: 10:00\u201318:00",
+          "\u015broda: 10:00\u201318:00",
+          "czwartek: 10:00\u201318:00",
+          "pi\u0105tek: 10:00\u201320:00",
+          "sobota: 10:00\u201318:00",
+          "niedziela: 10:00\u201318:00"
+        ]
+      },
+      "rating": 4.6
+    },
+    {
+      "location_id": "ChIJW1rdqlPMHkcRixi1GPq-Q2I",
+      "location_name": "PGE Narodowy",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.23925550000001,
+        "longitude": 21.0453352
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "2200",
+              "hours": 22,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "0600",
+              "hours": 6,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 06:00\u201322:00",
+          "wtorek: 06:00\u201322:00",
+          "\u015broda: 06:00\u201322:00",
+          "czwartek: 06:00\u201322:00",
+          "pi\u0105tek: 06:00\u201322:00",
+          "sobota: 06:00\u201322:00",
+          "niedziela: 06:00\u201322:00"
+        ]
+      },
+      "rating": 4.6
+    },
+    {
+      "location_id": "ChIJoY3AOljNHkcRysuOXHkD3Ps",
+      "location_name": "Park Skaryszewski",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2445935,
+        "longitude": 21.0579226
+      },
+      "opening_hours": {
+        "open_now": true,
+        "periods": [
+          {
+            "open": {
+              "day": 0,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: Czynne ca\u0142\u0105 dob\u0119",
+          "wtorek: Czynne ca\u0142\u0105 dob\u0119",
+          "\u015broda: Czynne ca\u0142\u0105 dob\u0119",
+          "czwartek: Czynne ca\u0142\u0105 dob\u0119",
+          "pi\u0105tek: Czynne ca\u0142\u0105 dob\u0119",
+          "sobota: Czynne ca\u0142\u0105 dob\u0119",
+          "niedziela: Czynne ca\u0142\u0105 dob\u0119"
+        ]
+      },
+      "rating": 4.8
+    },
+    {
+      "location_id": "ChIJvc79RILNHkcRED5FxexUUbg",
+      "location_name": "Hala Koszyki Warszawa",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2223037,
+        "longitude": 21.0110216
+      },
+      "opening_hours": {
+        "open_now": true,
+        "periods": [
+          {
+            "close": {
+              "day": 1,
+              "time": "0100",
+              "hours": 1,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "0100",
+              "hours": 1,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "0100",
+              "hours": 1,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "0100",
+              "hours": 1,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "0100",
+              "hours": 1,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "0100",
+              "hours": 1,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 0,
+              "time": "0100",
+              "hours": 1,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "0800",
+              "hours": 8,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 08:00\u201301:00",
+          "wtorek: 08:00\u201301:00",
+          "\u015broda: 08:00\u201301:00",
+          "czwartek: 08:00\u201301:00",
+          "pi\u0105tek: 08:00\u201301:00",
+          "sobota: 08:00\u201301:00",
+          "niedziela: 08:00\u201301:00"
+        ]
+      },
+      "rating": 4.6
+    },
+    {
+      "location_id": "ChIJYXcHb4XMHkcROsgHzar0-Sg",
+      "location_name": "Fabryka Norblina",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2324797,
+        "longitude": 20.9910542
+      },
+      "opening_hours": {
+        "open_now": true,
+        "periods": [
+          {
+            "close": {
+              "day": 1,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 0,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "0900",
+              "hours": 9,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 09:00\u201300:00",
+          "wtorek: 09:00\u201300:00",
+          "\u015broda: 09:00\u201300:00",
+          "czwartek: 09:00\u201300:00",
+          "pi\u0105tek: 09:00\u201300:00",
+          "sobota: 09:00\u201300:00",
+          "niedziela: 09:00\u201300:00"
+        ]
+      },
+      "rating": 4.7
+    },
+    {
+      "location_id": "ChIJhVL4alzMHkcRKga7oYwiso4",
+      "location_name": "Biblioteka Uniwersytecka w Warszawie",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2425648,
+        "longitude": 21.0247693
+      },
+      "opening_hours": {
+        "open_now": true,
+        "periods": [
+          {
+            "open": {
+              "day": 0,
+              "time": "0000",
+              "hours": 0,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: Czynne ca\u0142\u0105 dob\u0119",
+          "wtorek: Czynne ca\u0142\u0105 dob\u0119",
+          "\u015broda: Czynne ca\u0142\u0105 dob\u0119",
+          "czwartek: Czynne ca\u0142\u0105 dob\u0119",
+          "pi\u0105tek: Czynne ca\u0142\u0105 dob\u0119",
+          "sobota: Czynne ca\u0142\u0105 dob\u0119",
+          "niedziela: Czynne ca\u0142\u0105 dob\u0119"
+        ]
+      },
+      "rating": 4.7
+    },
+    {
+      "location_id": "ChIJKbVhrFjMHkcRdbMJyIdXC34",
+      "location_name": "Muzeum Fryderyka Chopina w Warszawie",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.23653969999999,
+        "longitude": 21.0229345
+      },
+      "opening_hours": null,
+      "rating": 4.5
+    },
+    {
+      "location_id": "ChIJCSxXlIzMHkcRvpr8eIiPHjU",
+      "location_name": "Taras Widokowy",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2317139,
+        "longitude": 21.006196
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 10:00\u201320:00",
+          "wtorek: 10:00\u201320:00",
+          "\u015broda: 10:00\u201320:00",
+          "czwartek: 10:00\u201320:00",
+          "pi\u0105tek: 10:00\u201320:00",
+          "sobota: 10:00\u201320:00",
+          "niedziela: 10:00\u201320:00"
+        ]
+      },
+      "rating": 4.6
+    },
+    {
+      "location_id": "ChIJr3ricVTMHkcR2d7qHtpjsIE",
+      "location_name": "Poniat\u00f3wka",
+      "min_duration_minutes": 2,
+      "max_duration_minutes": 2,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.2365285,
+        "longitude": 21.0420832
+      },
+      "opening_hours": null,
+      "rating": 4.5
+    },
+    {
+      "location_id": "ChIJGWs0bOHMHkcRLB38009D0ko",
+      "location_name": "Ogr\u00f3d Botaniczny Uniwersytetu Warszawskiego",
+      "min_duration_minutes": 60,
+      "max_duration_minutes": 120,
+      "time_window_start": null,
+      "time_window_end": null,
+      "coordinates": {
+        "latitude": 52.21780589999999,
+        "longitude": 21.0273743
+      },
+      "opening_hours": {
+        "open_now": false,
+        "periods": [
+          {
+            "close": {
+              "day": 0,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 0,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 1,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 1,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 2,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 2,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 3,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 3,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 4,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 4,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 5,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 5,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          },
+          {
+            "close": {
+              "day": 6,
+              "time": "2000",
+              "hours": 20,
+              "minutes": 0
+            },
+            "open": {
+              "day": 6,
+              "time": "1000",
+              "hours": 10,
+              "minutes": 0
+            }
+          }
+        ],
+        "weekday_text": [
+          "poniedzia\u0142ek: 10:00\u201320:00",
+          "wtorek: 10:00\u201320:00",
+          "\u015broda: 10:00\u201320:00",
+          "czwartek: 10:00\u201320:00",
+          "pi\u0105tek: 10:00\u201320:00",
+          "sobota: 10:00\u201320:00",
+          "niedziela: 10:00\u201320:00"
+        ]
+      },
+      "rating": 4.5
+    }
+  ]
+}
