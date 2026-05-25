@@ -169,7 +169,7 @@ def calculate_route_cost(
     start_time: str,
     trip_end_time: str | None = None,
     trip_points: List[TripPoint] | None = None,
-) -> tuple[bool, float, int]:
+) -> tuple[bool, float, int, list]:
 
     index_by_id = {
         point.location_id: idx
@@ -185,6 +185,7 @@ def calculate_route_cost(
     )
 
     total_duration_seconds = 0
+    route_segments = []
 
     for i in range(len(route) - 1):
 
@@ -204,8 +205,16 @@ def calculate_route_cost(
             next_index,
         )
 
+        route_segments.append({
+            "from_location_id": current_point.location_id,
+            "to_location_id": next_point.location_id,
+            "travel_mode": edge.travel_mode,
+            "travel_duration_seconds": edge.duration_seconds,
+            "distance_meters": edge.distance_meters,
+        })
+
         if edge is None:
-            return False, 0, 0
+            return False, 0, 0, []
 
         travel_time = seconds_to_timedelta(
             edge.duration_seconds
@@ -226,7 +235,7 @@ def calculate_route_cost(
         )
 
         if not visit_info["is_valid"]:
-            return False, 0, 0
+            return False, 0, 0, []
 
         arrival_time = visit_info["arrival_time"]
 
@@ -244,7 +253,7 @@ def calculate_route_cost(
             trip_end_datetime
             and leave_time > trip_end_datetime
         ):
-            return False, 0, 0
+            return False, 0, 0, []
 
         # ---------------------------------------------
         # UPDATE STATE
@@ -264,6 +273,7 @@ def calculate_route_cost(
         True,
         total_cost,
         total_duration_seconds,
+        route_segments
     )
 
 
@@ -300,6 +310,8 @@ def calculate_route_order(
 
     best_duration_seconds = 0
 
+    best_route_segments = []
+
     # =====================================================
     # PARTIAL + FULL ROUTES
     # =====================================================
@@ -323,6 +335,7 @@ def calculate_route_order(
                 is_valid,
                 total_cost,
                 total_duration_seconds,
+                route_segments
             ) = calculate_route_cost(
                 graph=graph,
                 route=candidate_route,
@@ -340,7 +353,7 @@ def calculate_route_order(
                 or len(candidate_route) > len(best_route)
             ):
                 best_route = candidate_route
-
+                best_route_segments = route_segments
                 best_cost = total_cost
 
                 best_duration_seconds = (
@@ -357,7 +370,7 @@ def calculate_route_order(
             ):
 
                 best_route = candidate_route
-
+                best_route_segments = route_segments
                 best_cost = total_cost
 
                 best_duration_seconds = (
@@ -370,7 +383,8 @@ def calculate_route_order(
 
     if best_route is None:
         return {
-            "route_order": [],
+            "route_segments": [],
+            "visited_location_ids": [],
             "total_duration_seconds": 0,
         }
 
@@ -379,10 +393,8 @@ def calculate_route_order(
     # =====================================================
 
     return {
-        "route_order": [
-            point.location_id
-            for point in best_route
-        ],
+        "route_segments": best_route_segments,
+        "visited_location_ids": [point.location_id for point in best_route],
         "total_duration_seconds": (
             best_duration_seconds
         ),

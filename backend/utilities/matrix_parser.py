@@ -27,8 +27,8 @@ async def get_route_graph(origins: list, destinations: list, travel_mode: Travel
                 travel_mode=TravelMode.TRANSIT
             )
             return merge_graphs_fastest([
-                transit_graph,
                 walk_graph,
+                transit_graph,
             ])
 
 def parse_duration_to_seconds(duration: str) -> int:

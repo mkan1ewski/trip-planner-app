@@ -57,7 +57,8 @@ async def calculate_route(payload: CalculateRouteRequest, algorithm: str = "gree
             )
         return {
             "status": "success",
-            "route_order": result["route_order"],
+            "route_segments": result["route_segments"],
+            "visited_location_ids": result["visited_location_ids"],
             "total_duration_seconds": result["total_duration_seconds"],
         }
     except Exception as e:

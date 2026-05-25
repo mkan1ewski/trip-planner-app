@@ -6,6 +6,7 @@ import {
   Map,
   Marker,
   Polyline,
+  AdvancedMarker,
 } from "@vis.gl/react-google-maps";
 import { PlaceAutocomplete } from "./PlaceAutocomplete";
 import axios from "axios";
@@ -22,6 +23,14 @@ interface TripPlace {
   visitTimeWindowEnd: string;
   openingHours?: any;
   rating?: number;
+}
+
+interface RouteSegment {
+  from_location_id: string;
+  to_location_id: string;
+  travel_mode: string;
+  travel_duration_seconds: number;
+  distance_meters: number;
 }
 
 function App() {
@@ -45,7 +54,7 @@ function App() {
   const [tripStartTime, setTripStartTime] = useState<string>(getCurrentDateTimeLocal());
   const [tripEndTime, setTripEndTime] = useState<string>("");
   const [travelMode, setTravelMode] = useState('DRIVE');
-  const [routeOrder, setRouteOrder] = useState<string[]>([]);
+  const [routeSegments, setRouteSegments] = useState<RouteSegment[]>([]);
   const [totalDurationSeconds, setTotalDurationSeconds] = useState<number>(0);
 
   if (!API_KEY) return <div>No API key</div>;
@@ -95,6 +104,22 @@ function App() {
     return `${hours}h ${minutes}min`;
   };
 
+  const getSegmentColor = (mode: string) => {
+    switch (mode) {
+      case "DRIVE":
+        return "#e53935";
+
+      case "TRANSIT":
+        return "#1e88e5";
+
+      case "WALK":
+        return "#43a047";
+
+      default:
+        return "#757575";
+    }
+  };
+
   const handleCalculateRoute = async () => {
     if (placesList.length < 2) {
       alert("Please add at least 2 places to calculate a route!");
@@ -130,7 +155,7 @@ function App() {
         requestPayload,
       );
 
-      setRouteOrder(response.data.route_order || []);
+      setRouteSegments(response.data.route_segments || []);
       setTotalDurationSeconds(
         response.data.total_duration_seconds || 0
       );
@@ -151,13 +176,30 @@ function App() {
       setStartLocationId(null);
     }
 
-    setRouteOrder((prev) =>
-      prev.filter((placeId) => placeId !== id)
-    );
+    setRouteSegments([]);
   };
 
-  const orderedPlaces = routeOrder
-    .map((id) => placesList.find((p) => p.id === id))
+  const orderedPlaces = routeSegments
+    .map((segment, index) => {
+      if (index === 0) {
+        return [
+          placesList.find(
+            (p) =>
+              p.id === segment.from_location_id
+          ),
+          placesList.find(
+            (p) =>
+              p.id === segment.to_location_id
+          ),
+        ];
+      }
+
+      return placesList.find(
+        (p) =>
+          p.id === segment.to_location_id
+      );
+    })
+    .flat()
     .filter(Boolean) as TripPlace[];
 
   return (
@@ -367,17 +409,76 @@ function App() {
               />
             ))}
 
-            {orderedPlaces.length > 1 && (
-              <Polyline
-                path={orderedPlaces.map((place) => ({
-                  lat: place.lat,
-                  lng: place.lng,
-                }))}
-                strokeColor="#4285F4"
-                strokeOpacity={1.0}
-                strokeWeight={4}
-              />
-            )}
+            {routeSegments.map((segment, index) => {
+
+            const fromPlace = placesList.find(
+              (p) =>
+                p.id === segment.from_location_id
+            );
+
+            const toPlace = placesList.find(
+              (p) =>
+                p.id === segment.to_location_id
+            );
+
+            if (!fromPlace || !toPlace) {
+              return null;
+            }
+
+            const midLat =
+              (fromPlace.lat + toPlace.lat) / 2;
+
+            const midLng =
+              (fromPlace.lng + toPlace.lng) / 2;
+
+            return (
+              <>
+                <Polyline
+                  key={`${segment.from_location_id}-${segment.to_location_id}`}
+                  path={[
+                    {
+                      lat: fromPlace.lat,
+                      lng: fromPlace.lng,
+                    },
+                    {
+                      lat: toPlace.lat,
+                      lng: toPlace.lng,
+                    },
+                  ]}
+                  strokeColor={getSegmentColor(
+                    segment.travel_mode
+                  )}
+                  strokeOpacity={1.0}
+                  strokeWeight={5}
+                />
+
+                <AdvancedMarker
+                  key={`label-${index}`}
+                  position={{
+                    lat: midLat,
+                    lng: midLng,
+                  }}
+                >
+                  <div
+                    style={{
+                      background: "white",
+                      border: "1px solid #ccc",
+                      borderRadius: "8px",
+                      padding: "4px 8px",
+                      fontSize: "12px",
+                      fontWeight: "bold",
+                      boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {formatDuration(
+                      segment.travel_duration_seconds
+                    )}
+                  </div>
+                </AdvancedMarker>
+              </>
+            );
+          })}
           </Map>
         </main>
       </div>

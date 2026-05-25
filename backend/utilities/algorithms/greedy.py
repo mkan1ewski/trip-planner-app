@@ -288,7 +288,8 @@ def calculate_route_order(
 
     visited = set()
 
-    route_order = []
+    # route_order = []
+    route_segments = []
 
     total_duration_seconds = 0
 
@@ -300,7 +301,7 @@ def calculate_route_order(
 
         visited.add(current_location_id)
 
-        route_order.append(current_location_id)
+        # route_order.append(current_location_id)
 
         current_index = index_by_id[current_location_id]
 
@@ -397,6 +398,14 @@ def calculate_route_order(
 
         edge = graph.get_edge(current_index, next_index)
 
+        route_segments.append({
+            "from_location_id": current_location_id,
+            "to_location_id": best_candidate.location_id,
+            "travel_mode": edge.travel_mode,
+            "travel_duration_seconds": edge.duration_seconds,
+            "distance_meters": edge.distance_meters,
+        })
+
         stay_duration = get_stay_duration(best_candidate)
         waiting_time_seconds = best_visit_info["waiting_time_seconds"]
 
@@ -412,7 +421,19 @@ def calculate_route_order(
 
         current_location_id = best_candidate.location_id
 
+    # return {
+    #     "route_order": route_order,
+    #     "total_duration_seconds": total_duration_seconds,
+    # }
     return {
-        "route_order": route_order,
+        "route_segments": route_segments,
+        "visited_location_ids": [
+            segment["from_location_id"]
+            for segment in route_segments
+        ] + (
+            [route_segments[-1]["to_location_id"]]
+            if route_segments
+            else [start_location_id]
+        ),
         "total_duration_seconds": total_duration_seconds,
     }
