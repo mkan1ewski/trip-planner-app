@@ -55,6 +55,7 @@ function App() {
   const [tripEndTime, setTripEndTime] = useState<string>("");
   const [travelMode, setTravelMode] = useState('DRIVE');
   const [routeSegments, setRouteSegments] = useState<RouteSegment[]>([]);
+  const [directionsRoutes, setDirectionsRoutes] = useState<any[]>([]);
   const [totalDurationSeconds, setTotalDurationSeconds] = useState<number>(0);
 
   if (!API_KEY) return <div>No API key</div>;
@@ -82,11 +83,6 @@ function App() {
         return newList;
       });
     }
-  };
-
-  const getGoogleWeekday = (dateString: string): number => {
-    const date = new Date(dateString);
-    return date.getDay();
   };
 
   const handlePlaceChange = (id: string, field: keyof TripPlace, value: any) => {
@@ -118,6 +114,94 @@ function App() {
       default:
         return "#757575";
     }
+  };
+
+  const getGoogleTravelMode = (
+    mode: string,
+  ): google.maps.TravelMode => {
+
+    switch (mode) {
+
+      case "DRIVE":
+        return google.maps.TravelMode.DRIVING;
+
+      case "WALK":
+        return google.maps.TravelMode.WALKING;
+
+      case "TRANSIT":
+        return google.maps.TravelMode.TRANSIT;
+
+      default:
+        return google.maps.TravelMode.DRIVING;
+    }
+  };
+
+  const fetchDirectionsRoutes = async (
+    segments: RouteSegment[],
+  ) => {
+
+    const service =
+      new google.maps.DirectionsService();
+
+    const routes = await Promise.all(
+      segments.map(async (segment) => {
+
+        const fromPlace = placesList.find(
+          (p) =>
+            p.id === segment.from_location_id
+        );
+
+        const toPlace = placesList.find(
+          (p) =>
+            p.id === segment.to_location_id
+        );
+
+        if (!fromPlace || !toPlace) {
+          return null;
+        }
+
+        const result =
+          await new Promise<
+            google.maps.DirectionsResult
+          >((resolve, reject) => {
+
+            service.route(
+              {
+                origin: {
+                  lat: fromPlace.lat,
+                  lng: fromPlace.lng,
+                },
+                destination: {
+                  lat: toPlace.lat,
+                  lng: toPlace.lng,
+                },
+                travelMode:
+                  getGoogleTravelMode(segment.travel_mode)
+              },
+              (result, status) => {
+
+                if (
+                  status === "OK"
+                  && result
+                ) {
+                  resolve(result);
+                } else {
+                  reject(status);
+                }
+              },
+            );
+          });
+
+        return {
+          segment,
+          route: result.routes[0],
+        };
+      }),
+    );
+
+    setDirectionsRoutes(
+      routes.filter(Boolean),
+    );
   };
 
   const handleCalculateRoute = async () => {
@@ -155,7 +239,15 @@ function App() {
         requestPayload,
       );
 
-      setRouteSegments(response.data.route_segments || []);
+      // setRouteSegments(response.data.route_segments || []);
+      const segments =
+        response.data.route_segments || [];
+
+      setRouteSegments(segments);
+
+      await fetchDirectionsRoutes(
+        segments,
+      );
       setTotalDurationSeconds(
         response.data.total_duration_seconds || 0
       );
@@ -433,7 +525,7 @@ function App() {
 
             return (
               <>
-                <Polyline
+                {/* <Polyline
                   key={`${segment.from_location_id}-${segment.to_location_id}`}
                   path={[
                     {
@@ -450,7 +542,34 @@ function App() {
                   )}
                   strokeOpacity={1.0}
                   strokeWeight={5}
-                />
+                /> */}
+                {directionsRoutes.map(
+                  (directionData, index) => {
+
+                    const path =
+                      directionData.route.overview_path.map(
+                        (point: google.maps.LatLng) => ({
+                          lat: point.lat(),
+                          lng: point.lng(),
+                        }),
+                      );
+
+                    const segment =
+                      directionData.segment;
+
+                    return (
+                      <Polyline
+                        key={index}
+                        path={path}
+                        strokeColor={getSegmentColor(
+                          segment.travel_mode
+                        )}
+                        strokeOpacity={1.0}
+                        strokeWeight={5}
+                      />
+                    );
+                  },
+                )}
 
                 <AdvancedMarker
                   key={`label-${index}`}
