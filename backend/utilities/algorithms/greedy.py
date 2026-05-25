@@ -10,9 +10,9 @@ load_dotenv()
 # CONFIG
 # =========================================================
 TRAVEL_TIME_WEIGHT = float(os.getenv("TRAVEL_TIME_WEIGHT") or 1.0)
-URGENCY_WEIGHT = float(os.getenv("URGENCY_WEIGHT") or 2.0)
-TIME_WINDOW_PENALTY_WEIGHT = float(os.getenv("TIME_WINDOW_PENALTY_WEIGHT") or 5.0)
-ATTRACTIVENESS_WEIGHT = float(os.getenv("ATTRACTIVENESS_WEIGHT") or 100.0)
+URGENCY_WEIGHT = float(os.getenv("URGENCY_WEIGHT") or 21)
+TIME_WINDOW_PENALTY_WEIGHT = float(os.getenv("TIME_WINDOW_PENALTY_WEIGHT") or 7.0)
+ATTRACTIVENESS_WEIGHT = float(os.getenv("ATTRACTIVENESS_WEIGHT") or 4.0)
 MAX_WAIT_HOURS = float(os.getenv("MAX_WAIT_HOURS") or 2)
 
 
@@ -166,16 +166,25 @@ def get_stay_duration(point: TripPoint) -> timedelta:
 # TIME WINDOW PENALTY
 # =========================================================
 
-def calculate_time_window_penalty(point: TripPoint, arrival_time: datetime) -> float:
+def calculate_time_window_penalty(
+    point: TripPoint,
+    arrival_time: datetime,
+) -> float:
 
     preferred_start = (
-        parse_time(point.time_window_start, arrival_time)
+        parse_time(
+            point.time_window_start,
+            arrival_time,
+        )
         if point.time_window_start
         else None
     )
 
     preferred_end = (
-        parse_time(point.time_window_end, arrival_time)
+        parse_time(
+            point.time_window_end,
+            arrival_time,
+        )
         if point.time_window_end
         else None
     )
@@ -189,7 +198,8 @@ def calculate_time_window_penalty(point: TripPoint, arrival_time: datetime) -> f
 
         if arrival_time < preferred_start:
             diff = preferred_start - arrival_time
-            return diff.total_seconds() / 60
+
+            return -(diff.total_seconds() / 60)
 
         diff = arrival_time - preferred_end
         return diff.total_seconds() / 60
@@ -199,7 +209,8 @@ def calculate_time_window_penalty(point: TripPoint, arrival_time: datetime) -> f
             return 0
 
         diff = preferred_start - arrival_time
-        return diff.total_seconds() / 60
+
+        return -(diff.total_seconds() / 60)
 
     if preferred_end:
         if arrival_time <= preferred_end:
@@ -231,7 +242,7 @@ def calculate_urgency(point: TripPoint, arrival_time: datetime) -> float:
     if remaining_minutes <= 0:
         return 999999
     
-    return 1 / remaining_minutes
+    return 1000 / remaining_minutes
 
 # =========================================================
 # COST FUNCTION
@@ -248,12 +259,13 @@ def calculate_cost(
     # print(f"urgency_cost: {URGENCY_WEIGHT * urgency}")
     # print(f"time_window_penalty_cost: {TIME_WINDOW_PENALTY_WEIGHT * time_window_penalty}")
     # print(f"attractiveness_cost: {ATTRACTIVENESS_WEIGHT * attractiveness}")
+    # print(f"total_cost: {TRAVEL_TIME_WEIGHT * edge_duration_seconds - URGENCY_WEIGHT * urgency + TIME_WINDOW_PENALTY_WEIGHT * time_window_penalty - ATTRACTIVENESS_WEIGHT * attractiveness}")
     return (
         TRAVEL_TIME_WEIGHT
         * edge_duration_seconds
         - URGENCY_WEIGHT
         * urgency
-        + TIME_WINDOW_PENALTY_WEIGHT
+        - TIME_WINDOW_PENALTY_WEIGHT
         * time_window_penalty
         - ATTRACTIVENESS_WEIGHT
         * attractiveness
@@ -284,14 +296,32 @@ def calculate_route_order(
         else None
     )
 
+    total_duration_seconds = 0
     current_location_id = start_location_id
+
+    start_point = next(point for point in trip_points if point.location_id == start_location_id)
+
+    start_stay_duration = get_stay_duration(start_point)
+
+    start_visit_info = calculate_visit_times(start_point, current_time, start_stay_duration)
+
+    if not start_visit_info["is_valid"]:
+        return {
+            "route_segments": [],
+            "visited_location_ids": [],
+            "total_duration_seconds": 0,
+        }
+
+    current_time = start_visit_info["leave_time"]
+
+    total_duration_seconds += (start_visit_info["waiting_time_seconds"])
+
+    total_duration_seconds += int(start_stay_duration.total_seconds())
 
     visited = set()
 
-    # route_order = []
     route_segments = []
 
-    total_duration_seconds = 0
 
     # -----------------------------------------------------
     # GREEDY LOOP
@@ -300,8 +330,6 @@ def calculate_route_order(
     while True:
 
         visited.add(current_location_id)
-
-        # route_order.append(current_location_id)
 
         current_index = index_by_id[current_location_id]
 
@@ -365,8 +393,7 @@ def calculate_route_order(
 
             time_penalty = calculate_time_window_penalty(candidate, arrival_time)
 
-            attractiveness = candidate.rating or 5
-
+            attractiveness = (candidate.rating or 5) * 100
             cost = calculate_cost(
                 edge_duration_seconds=edge.duration_seconds,
                 urgency=urgency,
@@ -421,10 +448,6 @@ def calculate_route_order(
 
         current_location_id = best_candidate.location_id
 
-    # return {
-    #     "route_order": route_order,
-    #     "total_duration_seconds": total_duration_seconds,
-    # }
     return {
         "route_segments": route_segments,
         "visited_location_ids": [
