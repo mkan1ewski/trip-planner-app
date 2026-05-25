@@ -77,6 +77,7 @@ Aplikacja została podzielona na frontend oraz backend.
 ## Frontend
 Frontend odpowiada za:
 - interakcję z użytkownikiem,
+- pobieranie danych o miejscach,
 - pobieranie parametrów wycieczki,
 - wizualizację trasy na mapie.
 
@@ -89,7 +90,6 @@ Frontend odpowiada za:
 ## Backend
 Backend odpowiada za:
 - komunikację z Google API,
-- pobieranie danych o miejscach,
 - działanie algorytmu optymalizacji,
 - generowanie końcowej trasy.
 
