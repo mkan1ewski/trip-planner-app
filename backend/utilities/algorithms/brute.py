@@ -11,7 +11,6 @@ load_dotenv()
 # CONFIG
 # =========================================================
 
-OPENING_HOURS_PENALTY_WEIGHT = float(os.getenv("OPENING_HOURS_PENALTY_WEIGHT") or 60.0)
 MAX_WAIT_HOURS = float(os.getenv("MAX_WAIT_HOURS") or 2)
 
 

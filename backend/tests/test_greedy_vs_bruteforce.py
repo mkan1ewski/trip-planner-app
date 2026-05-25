@@ -45,7 +45,14 @@ def measure_request(url: str, payload: dict):
     assert data["status"] == "success"
 
     return {
-        "route_order": data["route_order"],
+        "route_segments": data.get(
+            "route_segments",
+            [],
+        ),
+        "visited_location_ids": data.get(
+            "visited_location_ids",
+            [],
+        ),
         "total_duration_seconds": data.get(
             "total_duration_seconds",
             0,
@@ -142,37 +149,21 @@ def test_saved_requests(
         # RESULTS
         # -------------------------------------------------
 
-        greedy_route = greedy_result[
-            "route_order"
-        ]
+        greedy_route = greedy_result["visited_location_ids"]
 
-        brute_route = bruteforce_result[
-            "route_order"
-        ]
+        brute_route = bruteforce_result["visited_location_ids"]
 
-        greedy_time = greedy_result[
-            "time_seconds"
-        ]
+        greedy_time = greedy_result["time_seconds"]
 
-        brute_time = bruteforce_result[
-            "time_seconds"
-        ]
+        brute_time = bruteforce_result["time_seconds"]
 
-        greedy_trip_duration = greedy_result[
-            "total_duration_seconds"
-        ]
+        greedy_trip_duration = greedy_result["total_duration_seconds"]
 
-        brute_trip_duration = bruteforce_result[
-            "total_duration_seconds"
-        ]
+        brute_trip_duration = bruteforce_result["total_duration_seconds"]
 
-        greedy_places_count = len(
-            greedy_route
-        )
+        greedy_places_count = len(greedy_route)
 
-        brute_places_count = len(
-            brute_route
-        )
+        brute_places_count = len(brute_route)
 
         greedy_avg_per_place = (
             greedy_trip_duration
@@ -251,6 +242,18 @@ def test_saved_requests(
 
         print(f"Route: {greedy_route}")
 
+
+        for segment in greedy_result[
+            "route_segments"
+        ]:
+            print(
+                f"  "
+                f"{segment['from_location_id']} "
+                f"-> "
+                f"{segment['to_location_id']} "
+                f"({segment['travel_mode']}, "
+                f"{format_duration(segment['travel_duration_seconds'])})"
+            )
         # -------------------------------------------------
         # BRUTEFORCE REPORT
         # -------------------------------------------------
@@ -278,6 +281,19 @@ def test_saved_requests(
         )
 
         print(f"Route: {brute_route}")
+        print("Segments:")
+
+        for segment in bruteforce_result[
+            "route_segments"
+        ]:
+            print(
+                f"  "
+                f"{segment['from_location_id']} "
+                f"-> "
+                f"{segment['to_location_id']} "
+                f"({segment['travel_mode']}, "
+                f"{format_duration(segment['travel_duration_seconds'])})"
+            )
 
         # -------------------------------------------------
         # COMPARISON
